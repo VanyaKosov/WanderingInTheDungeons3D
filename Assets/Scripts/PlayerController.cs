@@ -28,13 +28,26 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
-        //float left = Input.GetAxis("Horizontal");
+        PlayerMove();
+
+        PlayerLookAround();
+    }
+
+    private void PlayerMove()
+    {
+        float left = Input.GetAxis("Horizontal");
         float forward = Input.GetAxis("Vertical");
-        this.transform.position += transform.forward * forward * playerSpeed * Time.deltaTime;
+        Vector3 direction = new Vector3(forward, 0, left);
+        if (direction.magnitude > 1 || direction.magnitude < -1)
+        {
+            direction = Vector3.Normalize(direction);
+        }
+        transform.position += transform.forward * direction.x * playerSpeed * Time.deltaTime;
+        transform.position += transform.right * direction.z * playerSpeed * Time.deltaTime;
+    }
 
-        //Vector3 offset = new Vector3(forward, 0, left);
-        //this.transform.position += Vector3.Normalize(offset) * playerSpeed * Time.deltaTime;
-
+    private void PlayerLookAround()
+    {
         polar += Input.GetAxis("Mouse X") * mouseSensitivity;
         elevation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
 
