@@ -4,36 +4,43 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float playerSpeed;   
+    public float playerSpeed;
 
     public Camera playerCamera;
 
-    public float cameraOffset;
+    public float mouseSensitivity;
 
-    public float cameraSpeed;
+    private float polar = 0;
+
+    private float elevation = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerCamera.transform.position = new Vector3(this.transform.position.x, 
-            this.transform.position.y + cameraOffset, this.transform.position.z);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        Vector3 offset = new Vector3(horizontal, 0, vertical);
 
-        this.transform.position += Vector3.Normalize(offset) * playerSpeed * Time.deltaTime;
+    }
 
-        playerCamera.transform.position = new Vector3(this.transform.position.x,
-            this.transform.position.y + cameraOffset, this.transform.position.z);
+    void LateUpdate()
+    {
+        //float left = Input.GetAxis("Horizontal");
+        float forward = Input.GetAxis("Vertical");
+        this.transform.position += transform.forward * forward * playerSpeed * Time.deltaTime;
 
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-        playerCamera.transform.Rotate(playerCamera.transform.right * mouseY * cameraSpeed);
-        playerCamera.transform.Rotate(-playerCamera.transform.up * mouseX * cameraSpeed);
+        //Vector3 offset = new Vector3(forward, 0, left);
+        //this.transform.position += Vector3.Normalize(offset) * playerSpeed * Time.deltaTime;
+
+        polar += Input.GetAxis("Mouse X") * mouseSensitivity;
+        elevation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        elevation = Mathf.Max(-90f, Mathf.Min(90f, elevation));
+
+        playerCamera.transform.localRotation = Quaternion.AngleAxis(elevation, Vector3.right);
+        transform.rotation = Quaternion.AngleAxis(polar, Vector3.up);
     }
 }
