@@ -19,14 +19,9 @@ public class GameController : MonoBehaviour
         "************"
     };
 
-    void Start()
+    private void Start()
     {
         GenerateDungeon(dungeonMap);
-    }
-
-    void Update()
-    {
-
     }
 
     private void GenerateDungeon(string[] dungeonMap)

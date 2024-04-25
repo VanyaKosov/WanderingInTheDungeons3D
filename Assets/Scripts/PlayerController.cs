@@ -14,20 +14,20 @@ public class PlayerController : MonoBehaviour
 
     private float elevation = 0;
 
-    void Start()
-    {
+    private Rigidbody playerRigidbody;
 
+    private void Start()
+    {
+        playerRigidbody = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
-
-    }
-
-    void LateUpdate()
+    private void FixedUpdate()
     {
         PlayerMove();
+    }
 
+    private void LateUpdate()
+    {
         PlayerLookAround();
     }
 
@@ -36,12 +36,17 @@ public class PlayerController : MonoBehaviour
         float left = Input.GetAxis("Horizontal");
         float forward = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(forward, 0, left);
-        if (direction.magnitude > 1 || direction.magnitude < -1)
+        if (direction.sqrMagnitude > 1)
         {
             direction = Vector3.Normalize(direction);
         }
-        transform.position += transform.forward * direction.x * playerSpeed * Time.deltaTime;
-        transform.position += transform.right * direction.z * playerSpeed * Time.deltaTime;
+
+        Vector3 newPos = transform.position +
+           transform.forward * direction.x * playerSpeed * Time.deltaTime +
+           transform.right * direction.z * playerSpeed * Time.deltaTime;
+
+
+        playerRigidbody.MovePosition(newPos);
     }
 
     private void PlayerLookAround()
@@ -52,6 +57,9 @@ public class PlayerController : MonoBehaviour
         elevation = Mathf.Max(-90f, Mathf.Min(90f, elevation));
 
         playerCamera.transform.localRotation = Quaternion.AngleAxis(elevation, Vector3.right);
-        transform.rotation = Quaternion.AngleAxis(polar, Vector3.up);
+        //playerCamera.transform.localRotation = Quaternion.AngleAxis(polar, Vector3.up) * r;
+        //playerRigidbody.MoveRotation(Quaternion.AngleAxis(polar, Vector3.up));
+        //transform.rotation = Quaternion.AngleAxis(polar, Vector3.up);
+        playerRigidbody.MoveRotation(Quaternion.AngleAxis(polar, Vector3.up));
     }
 }
