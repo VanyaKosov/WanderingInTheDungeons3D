@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
 
     public GameObject wall;
 
-    public int segmentLength;
+    public float segmentHorizontalOffset;
 
     private string[] dungeonMap =
     {
@@ -31,22 +31,19 @@ public class GameController : MonoBehaviour
 
     private void GenerateDungeon(string[] dungeonMap)
     {
-        for (int row = 0; row > dungeonMap.Length; row++)
+        for (int row = 0; row < dungeonMap.Length; row++)
         {
-            print(row);
             for (int col = 0; col < dungeonMap[0].Length; col++)
             {
-                print(col);
                 char segment = dungeonMap[row][col];
+                Vector3 segmentCords = new Vector3(row * segmentHorizontalOffset, 0, col * segmentHorizontalOffset);
                 if (segment == ' ')
                 {
-                    Instantiate(floor, new Vector3(row * segmentLength, 0, col * segmentLength),
-                        Quaternion.identity);
+                    Instantiate(floor, segmentCords, Quaternion.identity);
                 }
                 else if (segment == '*')
                 {
-                    Instantiate(wall, new Vector3(row * segmentLength, 0, col * segmentLength),
-                        Quaternion.identity);
+                    Instantiate(wall, segmentCords, Quaternion.identity);
                 }
             }
         }
