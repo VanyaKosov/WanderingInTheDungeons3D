@@ -8,12 +8,14 @@ public class GameController : MonoBehaviour
 
     public GameObject wall;
 
+    public GameObject exit;
+
     public float segmentHorizontalOffset;
 
     private string[] dungeonMap =
     {
         "************",
-        "* *   *  *  ",
+        "* *   *  * E",
         "* * * **   *",
         "*   *    * *",
         "************"
@@ -39,6 +41,9 @@ public class GameController : MonoBehaviour
                 else if (segment == '*')
                 {
                     Instantiate(wall, segmentCords, Quaternion.identity);
+                } else if (segment == 'E')
+                {
+                    Instantiate(exit, segmentCords, Quaternion.identity);
                 }
             }
         }

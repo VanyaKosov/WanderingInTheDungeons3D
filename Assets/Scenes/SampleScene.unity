@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -274,9 +274,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -340,6 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floor: {fileID: 8745784277117804953, guid: 7431d1e1b2c77d741b3e030355f675c8, type: 3}
   wall: {fileID: 6081631319121627744, guid: 336d2ce1a724df846ae2c62f965cab0b, type: 3}
+  exit: {fileID: 7557807278023935242, guid: e8947669827d2f94bb2615c9b562e7f6, type: 3}
   segmentHorizontalOffset: 6
 --- !u!4 &1910375842
 Transform:

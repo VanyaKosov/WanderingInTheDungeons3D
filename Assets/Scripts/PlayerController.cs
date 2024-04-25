@@ -62,4 +62,12 @@ public class PlayerController : MonoBehaviour
         //transform.rotation = Quaternion.AngleAxis(polar, Vector3.up);
         playerRigidbody.MoveRotation(Quaternion.AngleAxis(polar, Vector3.up));
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Exit"))
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
+    }
 }
