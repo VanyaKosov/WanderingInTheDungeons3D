@@ -4,34 +4,40 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //public float playerSpeed;
+    public float playerSpeed;
 
-    //public Camera playerCamera;
+    public Camera playerCamera;
 
-    //public float mouseSensitivity;
+    public float mouseSensitivity;
 
-    //private float polar = 0;
+    private CharacterController characterController;
 
-    //private float elevation = 0;
+    private float polar = 0;
 
-    //private Rigidbody playerRigidbody;
+    private float elevation = 0;
 
     private void Start()
     {
-        //playerRigidbody = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
+    }
+
+    private void Update()
+    {
+        PlayerMove();
+        PlayerLookAround();
     }
 
     private void FixedUpdate()
     {
-        //PlayerMove();
+
     }
 
     private void LateUpdate()
     {
-        //PlayerLookAround();
+
     }
 
-    /*private void PlayerMove()
+    private void PlayerMove()
     {
         float left = Input.GetAxis("Horizontal");
         float forward = Input.GetAxis("Vertical");
@@ -41,12 +47,9 @@ public class PlayerController : MonoBehaviour
             direction = Vector3.Normalize(direction);
         }
 
-        Vector3 newPos = transform.position +
-           transform.forward * direction.x * playerSpeed * Time.deltaTime +
-           transform.right * direction.z * playerSpeed * Time.deltaTime;
+        Vector3 offset = transform.forward * direction.x + Physics.gravity + transform.right * direction.z;
 
-
-        playerRigidbody.MovePosition(newPos);
+        characterController.Move(offset * Time.deltaTime * playerSpeed);
     }
 
     private void PlayerLookAround()
@@ -57,11 +60,9 @@ public class PlayerController : MonoBehaviour
         elevation = Mathf.Max(-90f, Mathf.Min(90f, elevation));
 
         playerCamera.transform.localRotation = Quaternion.AngleAxis(elevation, Vector3.right);
-        //playerCamera.transform.localRotation = Quaternion.AngleAxis(polar, Vector3.up) * r;
-        //playerRigidbody.MoveRotation(Quaternion.AngleAxis(polar, Vector3.up));
-        //transform.rotation = Quaternion.AngleAxis(polar, Vector3.up);
-        playerRigidbody.MoveRotation(Quaternion.AngleAxis(polar, Vector3.up));
-    }*/
+
+        transform.rotation = Quaternion.AngleAxis(polar, Vector3.up);
+    }
 
     private void OnTriggerEnter(Collider other)
     {

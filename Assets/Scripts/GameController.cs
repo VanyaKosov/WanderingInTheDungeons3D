@@ -41,7 +41,8 @@ public class GameController : MonoBehaviour
                 else if (segment == '*')
                 {
                     Instantiate(wall, segmentCords, Quaternion.identity);
-                } else if (segment == 'E')
+                }
+                else if (segment == 'E')
                 {
                     Instantiate(exit, segmentCords, Quaternion.identity);
                 }
