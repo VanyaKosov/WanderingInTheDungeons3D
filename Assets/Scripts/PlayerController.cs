@@ -4,34 +4,34 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float playerSpeed;
+    //public float playerSpeed;
 
-    public Camera playerCamera;
+    //public Camera playerCamera;
 
-    public float mouseSensitivity;
+    //public float mouseSensitivity;
 
-    private float polar = 0;
+    //private float polar = 0;
 
-    private float elevation = 0;
+    //private float elevation = 0;
 
-    private Rigidbody playerRigidbody;
+    //private Rigidbody playerRigidbody;
 
     private void Start()
     {
-        playerRigidbody = GetComponent<Rigidbody>();
+        //playerRigidbody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
     {
-        PlayerMove();
+        //PlayerMove();
     }
 
     private void LateUpdate()
     {
-        PlayerLookAround();
+        //PlayerLookAround();
     }
 
-    private void PlayerMove()
+    /*private void PlayerMove()
     {
         float left = Input.GetAxis("Horizontal");
         float forward = Input.GetAxis("Vertical");
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         //playerRigidbody.MoveRotation(Quaternion.AngleAxis(polar, Vector3.up));
         //transform.rotation = Quaternion.AngleAxis(polar, Vector3.up);
         playerRigidbody.MoveRotation(Quaternion.AngleAxis(polar, Vector3.up));
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
