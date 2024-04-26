@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿    using System.Collections.Generic;
 
 namespace Assets.Scripts.Core
 {
@@ -13,9 +13,14 @@ namespace Assets.Scripts.Core
 
         private readonly Cells[,] map;
 
+        public List<Monster> monsters;
+
+        private int monsterCount;
+
         public Dungeon(string[] inputMap)
         {
             map = TranslateMap(inputMap);
+            monsters = addMonsters();
         }
 
         public Cells this[int row, int col]
@@ -31,6 +36,29 @@ namespace Assets.Scripts.Core
         public int Height
         {
             get => map.GetLength(0);
+        }
+
+        private List<Monster> addMonsters()
+        {
+            List<Monster> newMonsters = new List<Monster>();
+            monsterCount = Width * Height / 20;
+
+            for (int i = 0; i < monsterCount; i++)
+            {
+                System.Random random = new System.Random();
+                int randomX = random.Next(Width);
+                int randomY = random.Next(Height);
+                
+                if (this[randomX, randomY] != Cells.Empty)
+                {
+                    i--;
+                    continue;
+                }
+
+                newMonsters.Add(new Monster(randomX, randomY));
+            }
+
+            return newMonsters;
         }
 
         private Cells[,] TranslateMap(string[] inputMap)

@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject floor;
+    public GameObject floorPrefab;
 
-    public GameObject wall;
+    public GameObject wallPrefab;
 
-    public GameObject exit;
+    public GameObject exitPrefab;
+
+    public GameObject monsterPrefab;
 
     private Dictionary<Cells, GameObject> cellConverter;
 
@@ -35,6 +37,7 @@ public class GameController : MonoBehaviour
         FillCellConverter();
 
         GenerateDungeon(testDungeonMap);
+        generateMonsters();
     }
 
     private void GenerateDungeon(string[] inputDungeonMap)
@@ -51,12 +54,21 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void generateMonsters()
+    {
+        foreach (Monster monster in dungeon.monsters)
+        {
+            Vector3 monsterCords = new Vector3(monster.x * cellOffset, 2, monster.y * cellOffset);
+            Instantiate(monsterPrefab, monsterCords, Quaternion.identity);
+        }
+    }
+
     private void FillCellConverter()
     {
         cellConverter = new Dictionary<Cells, GameObject>();
 
-        cellConverter.Add(Cells.Empty, floor);
-        cellConverter.Add(Cells.Wall, wall);
-        cellConverter.Add(Cells.Exit, exit);
+        cellConverter.Add(Cells.Empty, floorPrefab);
+        cellConverter.Add(Cells.Wall, wallPrefab);
+        cellConverter.Add(Cells.Exit, exitPrefab);
     }
 }
