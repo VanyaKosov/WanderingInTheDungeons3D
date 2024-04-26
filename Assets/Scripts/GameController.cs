@@ -1,3 +1,4 @@
+using Assets.Scripts.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,43 +11,52 @@ public class GameController : MonoBehaviour
 
     public GameObject exit;
 
-    public float segmentHorizontalOffset;
+    private Dictionary<Cells, GameObject> cellConverter;
 
-    private string[] dungeonMap =
+    public float cellOffset;
+
+    private string[] testDungeonMap =
     {
-        "************",
-        "* *   *  * E",
-        "* * * **   *",
-        "*   *    * *",
-        "************"
+        "#########",
+        "# #     #",
+        "# # ### #",
+        "# # #   #",
+        "# # #####",
+        "#       #",
+        "# ##### #",
+        "#   #E  #",
+        "#########"
     };
+
+    private Dungeon dungeon;
 
     private void Start()
     {
-        GenerateDungeon(dungeonMap);
+        FillCellConverter();
+
+        GenerateDungeon(testDungeonMap);
     }
 
-    private void GenerateDungeon(string[] dungeonMap)
+    private void GenerateDungeon(string[] inputDungeonMap)
     {
-        for (int row = 0; row < dungeonMap.Length; row++)
+        dungeon = new Dungeon(testDungeonMap);
+
+        for (int row = 0; row < dungeon.Width; row++)
         {
-            for (int col = 0; col < dungeonMap[0].Length; col++)
+            for (int col = 0; col < dungeon.Height; col++)
             {
-                char segment = dungeonMap[row][col];
-                Vector3 segmentCords = new Vector3(row * segmentHorizontalOffset, 0, col * segmentHorizontalOffset);
-                if (segment == ' ')
-                {
-                    Instantiate(floor, segmentCords, Quaternion.identity);
-                }
-                else if (segment == '*')
-                {
-                    Instantiate(wall, segmentCords, Quaternion.identity);
-                }
-                else if (segment == 'E')
-                {
-                    Instantiate(exit, segmentCords, Quaternion.identity);
-                }
+                Vector3 cellCords = new Vector3(row * cellOffset, 0, col * cellOffset);
+                Instantiate(cellConverter[dungeon[row, col]], cellCords, Quaternion.identity);
             }
         }
+    }
+
+    private void FillCellConverter()
+    {
+        cellConverter = new Dictionary<Cells, GameObject>();
+
+        cellConverter.Add(Cells.Empty, floor);
+        cellConverter.Add(Cells.Wall, wall);
+        cellConverter.Add(Cells.Exit, exit);
     }
 }
