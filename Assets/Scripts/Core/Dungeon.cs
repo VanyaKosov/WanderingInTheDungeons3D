@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
@@ -8,14 +9,14 @@ namespace Assets.Scripts.Core
         private const int cellsPerMonster = 10;
 
         private System.Random randgen = new System.Random();
+        private readonly Cells[,] map;
+        private int monsterCount;
         private Dictionary<char, Cells> cellConverter = new Dictionary<char, Cells>
         {
             { ' ', Cells.Empty },
             { '#', Cells.Wall },
             { 'E', Cells.Exit }
         };
-        private readonly Cells[,] map;
-        private int monsterCount;
 
         public Dungeon(string[] inputMap)
         {
@@ -41,6 +42,61 @@ namespace Assets.Scripts.Core
         public int Height
         {
             get => map.GetLength(0);
+        }
+
+        public List<Vector2Int> findPath(Vector2Int start, Vector2Int target)
+        {
+            List<Vector2Int> path = new List<Vector2Int>();
+            int[,] stepMap = new int[Height, Width];
+            for (int row = 0; row < Height; row++)
+            {
+                for (int col = 0; col < Width; col++)
+                {
+                    stepMap[row, col] = int.MaxValue;
+                }
+            }
+            SortedSet<Vector2Int> positions = new SortedSet<Vector2Int>(new ByDistance(target)) { start };
+            stepMap[start.y, start.x] = 0;
+
+            while (positions.Count > 0)
+            {
+                Vector2Int pos = positions.First();
+                positions.Remove(pos);
+
+                if (pos == target)
+                {
+                    Vector2Int currentPos = new Vector2Int(pos.x, pos.y);
+                    path.Insert(0, currentPos);
+
+                    while (stepMap[currentPos.y, currentPos.x] > 0)
+                    {
+                        foreach (Vector2Int cell in currentPos.CellsAround())
+                        {
+                            if (stepMap[cell.y, cell.x] == stepMap[currentPos.y, currentPos.x] - 1)
+                            {
+                                path.Insert(0, cell);
+                                currentPos = cell;
+
+                                break;
+                            }
+                        }
+                    }
+                    path.Insert(0, currentPos);
+
+                    return path;
+                }
+
+                foreach (Vector2Int cell in pos.CellsAround())
+                {
+                    if (map[cell.y, cell.x] == Cells.Wall || map[cell.y, cell.x] == Cells.Exit) { continue; }
+                    if (stepMap[cell.y, cell.x] < stepMap[pos.y, pos.x] + 1) { continue; }
+                    stepMap[cell.y, cell.x] = stepMap[pos.y, pos.x] + 1;
+
+                    positions.Add(cell);
+                }
+            }
+
+            return null;
         }
 
         public Vector2Int getRandomFreePos()
@@ -71,6 +127,21 @@ namespace Assets.Scripts.Core
             }
 
             return newMap;
+        }
+
+        private class ByDistance : IComparer<Vector2Int>
+        {
+            private readonly Vector2Int target;
+
+            public ByDistance(Vector2Int target)
+            {
+                this.target = target;
+            }
+
+            public int Compare(Vector2Int a, Vector2Int b)
+            {
+                return a.ManhattanDistance(target) - b.ManhattanDistance(target);
+            }
         }
     }
 }
