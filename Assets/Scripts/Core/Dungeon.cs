@@ -1,31 +1,36 @@
-﻿    using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
     internal class Dungeon
     {
+        private const int cellsPerMonster = 10;
+
+        private System.Random randgen = new System.Random();
         private Dictionary<char, Cells> cellConverter = new Dictionary<char, Cells>
         {
             { ' ', Cells.Empty },
             { '#', Cells.Wall },
             { 'E', Cells.Exit }
         };
-
         private readonly Cells[,] map;
-
-        public List<Monster> monsters;
-
         private int monsterCount;
 
         public Dungeon(string[] inputMap)
         {
             map = TranslateMap(inputMap);
-            monsters = addMonsters();
+            monsterCount = Width * Height / cellsPerMonster;
         }
 
         public Cells this[int row, int col]
         {
             get => map[row, col];
+        }
+
+        public int MonsterCount
+        {
+            get => monsterCount;
         }
 
         public int Width
@@ -38,27 +43,19 @@ namespace Assets.Scripts.Core
             get => map.GetLength(0);
         }
 
-        private List<Monster> addMonsters()
+        public Vector2Int getRandomFreePos()
         {
-            List<Monster> newMonsters = new List<Monster>();
-            monsterCount = Width * Height / 20;
-
-            for (int i = 0; i < monsterCount; i++)
+            while (true)
             {
-                System.Random random = new System.Random();
-                int randomX = random.Next(Width);
-                int randomY = random.Next(Height);
-                
-                if (this[randomX, randomY] != Cells.Empty)
+                Vector2Int cords = new Vector2Int(randgen.Next(Width), randgen.Next(Height));
+
+                if (this[cords.x, cords.y] != Cells.Empty)
                 {
-                    i--;
                     continue;
                 }
 
-                newMonsters.Add(new Monster(randomX, randomY));
+                return cords;
             }
-
-            return newMonsters;
         }
 
         private Cells[,] TranslateMap(string[] inputMap)

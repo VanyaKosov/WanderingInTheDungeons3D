@@ -6,17 +6,13 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public GameObject floorPrefab;
-
     public GameObject wallPrefab;
-
     public GameObject exitPrefab;
-
     public GameObject monsterPrefab;
-
-    private Dictionary<Cells, GameObject> cellConverter;
-
     public float cellOffset;
-
+    private Dictionary<Cells, GameObject> cellConverter;
+    private Dungeon dungeon;
+    private List<GameObject> monsters;
     private string[] testDungeonMap =
     {
         "#########",
@@ -30,8 +26,6 @@ public class GameController : MonoBehaviour
         "#########"
     };
 
-    private Dungeon dungeon;
-
     private void Start()
     {
         FillCellConverter();
@@ -42,7 +36,7 @@ public class GameController : MonoBehaviour
 
     private void GenerateDungeon(string[] inputDungeonMap)
     {
-        dungeon = new Dungeon(testDungeonMap);
+        dungeon = new Dungeon(inputDungeonMap);
 
         for (int row = 0; row < dungeon.Width; row++)
         {
@@ -56,19 +50,24 @@ public class GameController : MonoBehaviour
 
     private void generateMonsters()
     {
-        foreach (Monster monster in dungeon.monsters)
+        monsters = new List<GameObject>();
+
+        for (int i = 0; i < dungeon.MonsterCount; i++)
         {
-            Vector3 monsterCords = new Vector3(monster.x * cellOffset, 2, monster.y * cellOffset);
-            Instantiate(monsterPrefab, monsterCords, Quaternion.identity);
+            Vector2Int randomPos = dungeon.getRandomFreePos();
+            Vector3 worldPos = new Vector3(randomPos.x * cellOffset, 2, randomPos.x * cellOffset);
+
+            monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
         }
     }
 
     private void FillCellConverter()
     {
-        cellConverter = new Dictionary<Cells, GameObject>();
-
-        cellConverter.Add(Cells.Empty, floorPrefab);
-        cellConverter.Add(Cells.Wall, wallPrefab);
-        cellConverter.Add(Cells.Exit, exitPrefab);
+        cellConverter = new Dictionary<Cells, GameObject>()
+        {
+            { Cells.Empty, floorPrefab },
+            { Cells.Wall, wallPrefab },
+            { Cells.Exit, exitPrefab }
+        };
     }
 }

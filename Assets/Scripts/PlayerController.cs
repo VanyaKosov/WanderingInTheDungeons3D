@@ -5,15 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float playerSpeed;
-
     public Camera playerCamera;
-
     public float mouseSensitivity;
-
     private CharacterController characterController;
-
     private float polar = 0;
-
     private float elevation = 0;
 
     private void Start()
@@ -25,16 +20,6 @@ public class PlayerController : MonoBehaviour
     {
         PlayerMove();
         PlayerLookAround();
-    }
-
-    private void FixedUpdate()
-    {
-
-    }
-
-    private void LateUpdate()
-    {
-
     }
 
     private void PlayerMove()
