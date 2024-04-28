@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
-    internal class Dungeon
+    public class Dungeon
     {
         private const int cellsPerMonster = 10;
 
@@ -44,9 +45,9 @@ namespace Assets.Scripts.Core
             get => map.GetLength(0);
         }
 
-        public List<Vector2Int> findPath(Vector2Int start, Vector2Int target)
+        public Stack<Vector2Int> findPath(Vector2Int start, Vector2Int target)
         {
-            List<Vector2Int> path = new List<Vector2Int>();
+            Stack<Vector2Int> path = new Stack<Vector2Int>();
             int[,] stepMap = new int[Height, Width];
             for (int row = 0; row < Height; row++)
             {
@@ -66,7 +67,7 @@ namespace Assets.Scripts.Core
                 if (pos == target)
                 {
                     Vector2Int currentPos = new Vector2Int(pos.x, pos.y);
-                    path.Insert(0, currentPos);
+                    path.Push(currentPos);
 
                     while (stepMap[currentPos.y, currentPos.x] > 0)
                     {
@@ -74,14 +75,14 @@ namespace Assets.Scripts.Core
                         {
                             if (stepMap[cell.y, cell.x] == stepMap[currentPos.y, currentPos.x] - 1)
                             {
-                                path.Insert(0, cell);
+                                path.Push(cell);
                                 currentPos = cell;
 
                                 break;
                             }
                         }
                     }
-                    path.Insert(0, currentPos);
+                    path.Push(currentPos);
 
                     return path;
                 }
@@ -96,7 +97,7 @@ namespace Assets.Scripts.Core
                 }
             }
 
-            return null;
+            return path;
         }
 
         public Vector2Int getRandomFreePos()
@@ -105,7 +106,7 @@ namespace Assets.Scripts.Core
             {
                 Vector2Int cords = new Vector2Int(randgen.Next(Width), randgen.Next(Height));
 
-                if (this[cords.x, cords.y] != Cells.Empty)
+                if (this[cords.y, cords.x] != Cells.Empty) // x and y are switched
                 {
                     continue;
                 }

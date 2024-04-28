@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Core
 {
-    internal enum Cells
+    public enum Cells
     {
         Empty, Wall, Exit
     }

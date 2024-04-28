@@ -1,15 +1,16 @@
 using Assets.Scripts.Core;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public static float cellOffset = 6;
     public GameObject floorPrefab;
     public GameObject wallPrefab;
     public GameObject exitPrefab;
     public GameObject monsterPrefab;
-    public float cellOffset;
     private Dictionary<Cells, GameObject> cellConverter;
     private Dungeon dungeon;
     private List<GameObject> monsters;
@@ -32,6 +33,12 @@ public class GameController : MonoBehaviour
 
         GenerateDungeon(testDungeonMap);
         generateMonsters();
+
+        //var p = dungeon.findPath(new Vector2Int(7, 2), new Vector2Int(6, 7));
+        //while (p.Count > 0)
+        //{
+        //    print(p.Pop());
+        //}
     }
 
     private void GenerateDungeon(string[] inputDungeonMap)
@@ -58,6 +65,7 @@ public class GameController : MonoBehaviour
             Vector3 worldPos = new Vector3(randomPos.x * cellOffset, 2, randomPos.x * cellOffset);
 
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
+            monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, randomPos);
         }
     }
 
