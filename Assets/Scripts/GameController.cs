@@ -47,10 +47,10 @@ public class GameController : MonoBehaviour
 
         for (int row = 0; row < dungeon.Width; row++)
         {
-            for (int col = 0; col < dungeon.Height; col++)
+            for (int col = 0; col < dungeon.Width; col++)
             {
                 Vector3 cellCords = new Vector3(row * cellOffset, 0, col * cellOffset);
-                Instantiate(cellConverter[dungeon[row, col]], cellCords, Quaternion.identity);
+                Instantiate(cellConverter[dungeon[col, row]], cellCords, Quaternion.identity);
             }
         }
     }
@@ -59,15 +59,19 @@ public class GameController : MonoBehaviour
     {
         monsters = new List<GameObject>();
 
-        //for (int i = 0; i < dungeon.MonsterCount; i++)
-        for (int i = 0; i < 1; i++)
+        Vector3 worldPos = new Vector3(1 * cellOffset, 2, 1 * cellOffset);
+        monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
+        monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, new Vector2Int(1, 1));
+
+        //for (int i = 0; i < 1; i++)
+        /*for (int i = 0; i < dungeon.MonsterCount; i++)
         {
             Vector2Int randomPos = dungeon.getRandomFreePos();
-            Vector3 worldPos = new Vector3(randomPos.x * cellOffset, 2, randomPos.x * cellOffset);
+            Vector3 worldPos = new Vector3(randomPos.x * cellOffset, 2, randomPos.y * cellOffset);
 
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
             monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, randomPos);
-        }
+        }*/
     }
 
     private void FillCellConverter()
