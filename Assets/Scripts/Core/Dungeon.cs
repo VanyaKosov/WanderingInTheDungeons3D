@@ -69,7 +69,7 @@ namespace Assets.Scripts.Core
                     Vector2Int currentPos = new Vector2Int(pos.x, pos.y);
                     path.Push(currentPos);
 
-                    while (stepMap[currentPos.y, currentPos.x] > 0)
+                    while (stepMap[currentPos.y, currentPos.x] > 1) // was 0
                     {
                         foreach (Vector2Int cell in currentPos.CellsAround())
                         {
@@ -82,7 +82,7 @@ namespace Assets.Scripts.Core
                             }
                         }
                     }
-                    path.Push(currentPos);
+                    //path.Push(currentPos);
 
                     return path;
                 }
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Core
             {
                 Vector2Int cords = new Vector2Int(randgen.Next(Width), randgen.Next(Height));
 
-                if (this[cords.y, cords.x] != Cells.Empty) // x and y are switched
+                if (this[cords.y, cords.x] != Cells.Empty)
                 {
                     continue;
                 }

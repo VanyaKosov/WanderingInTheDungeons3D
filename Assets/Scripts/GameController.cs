@@ -59,7 +59,8 @@ public class GameController : MonoBehaviour
     {
         monsters = new List<GameObject>();
 
-        for (int i = 0; i < dungeon.MonsterCount; i++)
+        //for (int i = 0; i < dungeon.MonsterCount; i++)
+        for (int i = 0; i < 1; i++)
         {
             Vector2Int randomPos = dungeon.getRandomFreePos();
             Vector3 worldPos = new Vector3(randomPos.x * cellOffset, 2, randomPos.x * cellOffset);
