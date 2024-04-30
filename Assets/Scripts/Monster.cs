@@ -7,54 +7,48 @@ public class Monster : MonoBehaviour
 {
     public float speed;
     public Vector2Int mapPos;
-    public Vector2Int moveMapPos;
+    public Vector2Int nextMapPos;
     public CharacterController characterController;
     private Dungeon dungeon;
     private Stack<Vector2Int> path;
-    public Vector3 targetPos;
+    public Vector3 worldTargetPos;
 
     void Start()
     {
-        //path = dungeon.findPath(mapPos, dungeon.getRandomFreePos());
-        path = dungeon.findPath(mapPos, new Vector2Int(7, 7));
-        //mapPos = path.Pop();
-        moveMapPos = path.Pop();
-        //targetPos = new Vector3(mapPos.x * GameController.cellOffset, 2, mapPos.y * GameController.cellOffset);
-        targetPos = new Vector3(mapPos.y * GameController.cellOffset, 2, mapPos.x * GameController.cellOffset);
+        path = dungeon.findPath(mapPos, dungeon.getRandomFreePos());
+        //path = dungeon.findPath(mapPos, new Vector2Int(7, 7));
 
-        //targetPos = new Vector3((moveMapPos.x - mapPos.x) * GameController.cellOffset, 2,
-        //        (moveMapPos.y - mapPos.y) * GameController.cellOffset);
-        //targetPos = new Vector3((moveMapPos.y - mapPos.y) * GameController.cellOffset, 2,
-        //        (moveMapPos.x - mapPos.x) * GameController.cellOffset);
+        print(path.Count);
+
+        //mapPos = path.Pop();
+        nextMapPos = path.Pop();
+        worldTargetPos = new Vector3(mapPos.x * GameController.cellOffset, 2, mapPos.y * GameController.cellOffset);
     }
 
     void Update()
     {
-        /*while (path.Count == 0)
+        if (path.Count == 0) // while
         {
             var randomPos = dungeon.getRandomFreePos();
             path = dungeon.findPath(mapPos, randomPos);
-        }*/
+        }
 
-        if (((int)transform.position.x == (int)targetPos.x) && ((int)transform.position.z == (int)targetPos.z))
+        //print((int)transform.position.x + " " + (int)worldTargetPos.x + " " + (int)transform.position.z + " " + (int)worldTargetPos.z);
+        if (((int)transform.position.x == (int)worldTargetPos.x) && ((int)transform.position.z == (int)worldTargetPos.z))
         {
-            mapPos = moveMapPos;
-            moveMapPos = path.Pop();
+            mapPos = nextMapPos;
+            nextMapPos = path.Pop();
 
-            //targetPos = new Vector3(mapPos.x * GameController.cellOffset, 2, mapPos.y * GameController.cellOffset);
-            targetPos = new Vector3(mapPos.y * GameController.cellOffset, 2, mapPos.x * GameController.cellOffset);
-            //targetPos = new Vector3((mapPos.x - moveMapPos.x) * GameController.cellOffset, 2, 
-            //    (mapPos.y - moveMapPos.y) * GameController.cellOffset);
+            worldTargetPos = new Vector3(nextMapPos.x * GameController.cellOffset, 2, nextMapPos.y * GameController.cellOffset);
 
             //mapPos = path.Pop();
             //targetPos = new Vector3(mapPos.x * GameController.cellOffset, 2, mapPos.y * GameController.cellOffset);
         }
-        //transform.position = new Vector3(mapPos.x * GameController.cellOffset, 2, mapPos.y * GameController.cellOffset);
 
-        var v = new Vector3((moveMapPos.y - mapPos.y) * GameController.cellOffset, 2,
-                (moveMapPos.x - mapPos.x) * GameController.cellOffset);
         //characterController.SimpleMove(targetPos * speed * Time.deltaTime);
-        characterController.SimpleMove(v * speed * Time.deltaTime);
+        var offset = new Vector3((nextMapPos.x - mapPos.x) * GameController.cellOffset, 2,
+                (nextMapPos.y - mapPos.y) * GameController.cellOffset);
+        characterController.SimpleMove(offset * speed * Time.deltaTime);
     }
 
     public void Init(Dungeon dungeon, Vector2Int mapPos)

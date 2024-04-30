@@ -59,19 +59,19 @@ public class GameController : MonoBehaviour
     {
         monsters = new List<GameObject>();
 
-        Vector3 worldPos = new Vector3(1 * cellOffset, 2, 1 * cellOffset);
-        monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
-        monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, new Vector2Int(1, 1));
+        //Vector3 worldPos = new Vector3(1 * cellOffset, 2, 1 * cellOffset);
+        //monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
+        //monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, new Vector2Int(1, 1));
 
         //for (int i = 0; i < 1; i++)
-        /*for (int i = 0; i < dungeon.MonsterCount; i++)
+        for (int i = 0; i < dungeon.MonsterCount; i++)
         {
             Vector2Int randomPos = dungeon.getRandomFreePos();
             Vector3 worldPos = new Vector3(randomPos.x * cellOffset, 2, randomPos.y * cellOffset);
 
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
             monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, randomPos);
-        }*/
+        }
     }
 
     private void FillCellConverter()

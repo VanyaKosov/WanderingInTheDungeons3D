@@ -7,7 +7,7 @@ namespace Assets.Scripts.Core
 {
     public class Dungeon
     {
-        private const int cellsPerMonster = 10;
+        private const int cellsPerMonster = 30;
 
         private System.Random randgen = new System.Random();
         private readonly Cells[,] map;
