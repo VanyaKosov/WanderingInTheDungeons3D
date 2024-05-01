@@ -33,12 +33,6 @@ public class GameController : MonoBehaviour
 
         GenerateDungeon(testDungeonMap);
         generateMonsters();
-
-        //var p = dungeon.findPath(new Vector2Int(7, 2), new Vector2Int(6, 7));
-        //while (p.Count > 0)
-        //{
-        //    print(p.Pop());
-        //}
     }
 
     private void GenerateDungeon(string[] inputDungeonMap)
@@ -58,12 +52,6 @@ public class GameController : MonoBehaviour
     private void generateMonsters()
     {
         monsters = new List<GameObject>();
-
-        //Vector3 worldPos = new Vector3(1 * cellOffset, 2, 1 * cellOffset);
-        //monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
-        //monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, new Vector2Int(1, 1));
-
-        //for (int i = 0; i < 1; i++)
         for (int i = 0; i < dungeon.MonsterCount; i++)
         {
             Vector2Int randomPos = dungeon.getRandomFreePos();

@@ -121,11 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2452b728a6b4069439040745eea9fa17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  mapPos: {x: 0, y: 0}
-  nextMapPos: {x: 0, y: 0}
+  speed: 5
   characterController: {fileID: 3500533047842061824}
-  worldTargetPos: {x: 0, y: 0, z: 0}
 --- !u!143 &3500533047842061824
 CharacterController:
   m_ObjectHideFlags: 0
