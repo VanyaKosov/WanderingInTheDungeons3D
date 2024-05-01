@@ -27,14 +27,15 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
-        if (path.Count == 0) // while
+        while (path.Count == 0)
         {
             var randomPos = dungeon.getRandomFreePos();
             path = dungeon.findPath(mapPos, randomPos);
         }
 
         //print((int)transform.position.x + " " + (int)worldTargetPos.x + " " + (int)transform.position.z + " " + (int)worldTargetPos.z);
-        if (((int)transform.position.x == (int)worldTargetPos.x) && ((int)transform.position.z == (int)worldTargetPos.z))
+        //if (((int)transform.position.x == (int)worldTargetPos.x) && ((int)transform.position.z == (int)worldTargetPos.z))
+        if ((transform.position - worldTargetPos).sqrMagnitude <= 1)
         {
             mapPos = nextMapPos;
             nextMapPos = path.Pop();

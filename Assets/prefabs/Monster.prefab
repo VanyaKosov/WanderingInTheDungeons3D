@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8560408636732805032}
   - component: {fileID: 4193886564961900722}
   - component: {fileID: 3500533047842061824}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Monster
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -123,7 +123,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 50
   mapPos: {x: 0, y: 0}
+  nextMapPos: {x: 0, y: 0}
   characterController: {fileID: 3500533047842061824}
+  worldTargetPos: {x: 0, y: 0, z: 0}
 --- !u!143 &3500533047842061824
 CharacterController:
   m_ObjectHideFlags: 0
