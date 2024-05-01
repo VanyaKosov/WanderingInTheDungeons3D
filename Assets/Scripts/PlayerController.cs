@@ -10,16 +10,24 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;
     private float polar = 0;
     private float elevation = 0;
+    private Vector2Int mapPos;
+
+    public Vector2Int MapPos
+    {
+        get => mapPos;
+    }
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
+        UpdateMapPos();
     }
 
     private void Update()
     {
         PlayerMove();
         PlayerLookAround();
+        UpdateMapPos();
     }
 
     private void PlayerMove()
@@ -35,6 +43,13 @@ public class PlayerController : MonoBehaviour
         Vector3 offset = transform.forward * direction.x + Physics.gravity + transform.right * direction.z;
 
         characterController.Move(offset * Time.deltaTime * playerSpeed);
+    }
+
+    private void UpdateMapPos()
+    {
+        int x = Mathf.FloorToInt(transform.position.x / GameController.cellOffset);
+        int y = Mathf.FloorToInt(transform.position.y / GameController.cellOffset);
+        mapPos = new Vector2Int(x, y);
     }
 
     private void PlayerLookAround()

@@ -45,7 +45,7 @@ namespace Assets.Scripts.Core
             get => map.GetLength(0);
         }
 
-        public Stack<Vector2Int> findPath(Vector2Int start, Vector2Int target)
+        public Stack<Vector2Int> FindPath(Vector2Int start, Vector2Int target)
         {
             Stack<Vector2Int> path = new Stack<Vector2Int>();
             int[,] stepMap = new int[Height, Width];
@@ -100,7 +100,7 @@ namespace Assets.Scripts.Core
             return path;
         }
 
-        public Vector2Int getRandomFreePos()
+        public Vector2Int GetRandomFreePos()
         {
             while (true)
             {

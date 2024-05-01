@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
         monsters = new List<GameObject>();
         for (int i = 0; i < dungeon.MonsterCount; i++)
         {
-            Vector2Int randomPos = dungeon.getRandomFreePos();
+            Vector2Int randomPos = dungeon.GetRandomFreePos();
             Vector3 worldPos = new Vector3(randomPos.x * cellOffset, 2, randomPos.y * cellOffset);
 
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
