@@ -15,6 +15,7 @@ public class Monster : MonoBehaviour
     private Stack<Vector2Int> path;
     private Vector3 worldTargetPos;
     private GameObject player;
+    private PlayerController playerController;
 
     void Start()
     {
@@ -24,6 +25,7 @@ public class Monster : MonoBehaviour
         worldTargetPos = new Vector3(mapPos.x * GameController.cellOffset, 2, mapPos.y * GameController.cellOffset);
 
         player = GameObject.Find("Player");
+        playerController = player.GetComponent<PlayerController>();
     }
 
     void Update()
@@ -42,12 +44,30 @@ public class Monster : MonoBehaviour
             worldTargetPos = new Vector3(nextMapPos.x * GameController.cellOffset, 2, nextMapPos.y * GameController.cellOffset);
         }
 
-        Vector3 speedOffset = ChasePlayer();
+        //Vector3 speedOffset = ChasePlayer();
+        Vector3 speedOffset = CalculateOffset();
 
         characterController.SimpleMove(speedOffset.normalized * speed);
     }
 
-    private Vector3 ChasePlayer()
+    private Vector3 CalculateOffset()
+    {
+        Vector3 offset = worldTargetPos - transform.position;
+
+        if ((player.transform.position - transform.position).magnitude < detectionRange)
+        {
+            offset = player.transform.position - transform.position;
+
+            /*if (mapPos == playerController.MapPos)
+            {
+                
+            }*/
+        }
+
+        return offset;
+    }
+
+    /*private Vector3 ChasePlayer()
     {
         Vector2Int playerMapPos = player.GetComponent<PlayerController>().MapPos;
         int mapDistanceToPlayer = mapPos.ManhattanDistance(playerMapPos);
@@ -68,7 +88,7 @@ public class Monster : MonoBehaviour
         }
 
         return player.transform.position - transform.position;
-    }
+    }*/
 
     public void Init(Dungeon dungeon, Vector2Int mapPos)
     {
