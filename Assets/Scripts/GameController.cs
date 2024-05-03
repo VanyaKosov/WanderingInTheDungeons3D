@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public GameObject speedBootsPrefab;
     public GameObject floorPrefab;
     public GameObject wallPrefab;
     public GameObject exitPrefab;
@@ -32,6 +33,7 @@ public class GameController : MonoBehaviour
 
         GenerateDungeon(testDungeonMap);
         generateMonsters();
+        generateItems();
     }
 
     private void GenerateDungeon(string[] inputDungeonMap)
@@ -60,6 +62,15 @@ public class GameController : MonoBehaviour
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
             monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, randomPos);
         }
+    }
+
+    private void generateItems()
+    {
+        Vector2Int randomPos = dungeon.GetRandomFreePos();
+        Vector3 worldPos = Converter.MapToWorldPos(new Vector2Int(randomPos.x, randomPos.y));
+        worldPos.y += Converter.spawnOffset;
+
+        Instantiate(speedBootsPrefab, worldPos, Quaternion.identity);
     }
 
     private void FillCellConverter()
