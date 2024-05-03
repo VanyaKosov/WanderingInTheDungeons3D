@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool damageByMonsters;
+
     public float playerSpeed;
     public Camera playerCamera;
     public float mouseSensitivity;
@@ -58,6 +60,13 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Exit"))
         {
             UnityEditor.EditorApplication.isPlaying = false;
+        } 
+        else if (other.CompareTag("Monster"))
+        {
+            if (damageByMonsters)
+            {
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
         }
     }
 }

@@ -19,7 +19,6 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
-        //path = dungeon.FindPath(mapPos, dungeon.GetRandomFreePos());
         while (path.Count == 0)
         {
             var randomPos = dungeon.GetRandomFreePos();
@@ -27,7 +26,6 @@ public class Monster : MonoBehaviour
         }
 
         nextMapPos = path.Pop();
-        //worldTargetPos = new Vector3(nextMapPos.x * GameController.cellOffset, 2, nextMapPos.y * GameController.cellOffset);
         worldTargetPos = Converter.MapToWorldPos(new Vector2Int(nextMapPos.x, nextMapPos.y));
         worldTargetPos.y += Converter.spawnOffset;
 
@@ -56,12 +54,10 @@ public class Monster : MonoBehaviour
             mapPos = nextMapPos;
             nextMapPos = path.Pop();
 
-            //worldTargetPos = new Vector3(nextMapPos.x * GameController.cellOffset, 2, nextMapPos.y * GameController.cellOffset);
             worldTargetPos = Converter.MapToWorldPos(new Vector2Int(nextMapPos.x, nextMapPos.y));
             worldTargetPos.y += Converter.spawnOffset;
         }
 
-        //Vector3 speedOffset = worldTargetPos - transform.position;
         Vector3 speedOffset = CalculateOffset();
 
         characterController.SimpleMove(speedOffset * speed);
@@ -73,7 +69,7 @@ public class Monster : MonoBehaviour
         {
             path = dungeon.FindPath(mapPos, playerController.MapPos);
 
-            nextMapPos = path.Pop();
+            nextMapPos = path.Pop(); // Sometimes causes empty stack exception
             worldTargetPos = Converter.MapToWorldPos(new Vector2Int(nextMapPos.x, nextMapPos.y));
             worldTargetPos.y += Converter.spawnOffset;
         }
