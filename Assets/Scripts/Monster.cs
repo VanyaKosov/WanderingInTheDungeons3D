@@ -5,24 +5,31 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    private const int detectionRange = 2;
+    private const int detectionRangeWorld = 12;
 
     public float speed;
     public CharacterController characterController;
     private Vector2Int mapPos;
     private Vector2Int nextMapPos;
     private Dungeon dungeon;
-    private Stack<Vector2Int> path;
+    private Stack<Vector2Int> path = new Stack<Vector2Int>();
     private Vector3 worldTargetPos;
     private GameObject player;
     private PlayerController playerController;
 
     void Start()
     {
-        path = dungeon.FindPath(mapPos, dungeon.GetRandomFreePos());
+        //path = dungeon.FindPath(mapPos, dungeon.GetRandomFreePos());
+        while (path.Count == 0)
+        {
+            var randomPos = dungeon.GetRandomFreePos();
+            path = dungeon.FindPath(mapPos, randomPos);
+        }
 
         nextMapPos = path.Pop();
-        worldTargetPos = new Vector3(mapPos.x * GameController.cellOffset, 2, mapPos.y * GameController.cellOffset);
+        //worldTargetPos = new Vector3(nextMapPos.x * GameController.cellOffset, 2, nextMapPos.y * GameController.cellOffset);
+        worldTargetPos = Converter.MapToWorldPos(new Vector2Int(nextMapPos.x, nextMapPos.y));
+        worldTargetPos.y += Converter.spawnOffset;
 
         player = GameObject.Find("Player");
         playerController = player.GetComponent<PlayerController>();
@@ -30,6 +37,14 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
+        Vector3 playerDirection = ChasePlayer();
+        if (playerDirection != new Vector3(0, 0, 0))
+        {
+            characterController.SimpleMove(playerDirection * speed);
+
+            return;
+        }
+
         while (path.Count == 0)
         {
             var randomPos = dungeon.GetRandomFreePos();
@@ -41,54 +56,44 @@ public class Monster : MonoBehaviour
             mapPos = nextMapPos;
             nextMapPos = path.Pop();
 
-            worldTargetPos = new Vector3(nextMapPos.x * GameController.cellOffset, 2, nextMapPos.y * GameController.cellOffset);
+            //worldTargetPos = new Vector3(nextMapPos.x * GameController.cellOffset, 2, nextMapPos.y * GameController.cellOffset);
+            worldTargetPos = Converter.MapToWorldPos(new Vector2Int(nextMapPos.x, nextMapPos.y));
+            worldTargetPos.y += Converter.spawnOffset;
         }
 
-        //Vector3 speedOffset = ChasePlayer();
+        //Vector3 speedOffset = worldTargetPos - transform.position;
         Vector3 speedOffset = CalculateOffset();
 
-        characterController.SimpleMove(speedOffset.normalized * speed);
+        characterController.SimpleMove(speedOffset * speed);
     }
 
     private Vector3 CalculateOffset()
     {
+        if ((player.transform.position - transform.position).magnitude < detectionRangeWorld)
+        {
+            path = dungeon.FindPath(mapPos, playerController.MapPos);
+
+            nextMapPos = path.Pop();
+            worldTargetPos = Converter.MapToWorldPos(new Vector2Int(nextMapPos.x, nextMapPos.y));
+            worldTargetPos.y += Converter.spawnOffset;
+        }
+
         Vector3 offset = worldTargetPos - transform.position;
 
-        if ((player.transform.position - transform.position).magnitude < detectionRange)
-        {
-            offset = player.transform.position - transform.position;
-
-            /*if (mapPos == playerController.MapPos)
-            {
-                
-            }*/
-        }
-
-        return offset;
+        return offset.normalized;
     }
 
-    /*private Vector3 ChasePlayer()
+    private Vector3 ChasePlayer()
     {
-        Vector2Int playerMapPos = player.GetComponent<PlayerController>().MapPos;
-        int mapDistanceToPlayer = mapPos.ManhattanDistance(playerMapPos);
-        if (mapDistanceToPlayer > detectionRange)
+        Vector3 playerDirection = new Vector3(0, 0, 0);
+
+        if (playerController.MapPos == mapPos)
         {
-            return worldTargetPos - transform.position;
+            playerDirection = (player.transform.position - transform.position).normalized;
         }
 
-        if (mapPos != playerMapPos)
-        {
-            path = dungeon.FindPath(mapPos, playerMapPos);
-            nextMapPos = path.Pop();
-            worldTargetPos = new Vector3(nextMapPos.x * GameController.cellOffset, 2, nextMapPos.y * GameController.cellOffset);
-
-            // Choose new random pos
-
-            return worldTargetPos - transform.position;
-        }
-
-        return player.transform.position - transform.position;
-    }*/
+        return playerDirection;
+    }
 
     public void Init(Dungeon dungeon, Vector2Int mapPos)
     {

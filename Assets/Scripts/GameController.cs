@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public static float cellOffset = 6;
     public GameObject floorPrefab;
     public GameObject wallPrefab;
     public GameObject exitPrefab;
@@ -43,7 +42,7 @@ public class GameController : MonoBehaviour
         {
             for (int col = 0; col < dungeon.Width; col++)
             {
-                Vector3 cellCords = new Vector3(row * cellOffset, 0, col * cellOffset);
+                Vector3 cellCords = Converter.MapToWorldPos(new Vector2Int(row, col));
                 Instantiate(cellConverter[dungeon[col, row]], cellCords, Quaternion.identity);
             }
         }
@@ -55,7 +54,8 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < dungeon.MonsterCount; i++)
         {
             Vector2Int randomPos = dungeon.GetRandomFreePos();
-            Vector3 worldPos = new Vector3(randomPos.x * cellOffset, 2, randomPos.y * cellOffset);
+            Vector3 worldPos = Converter.MapToWorldPos(new Vector2Int(randomPos.x, randomPos.y));
+            worldPos.y += Converter.spawnOffset;
 
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
             monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, randomPos);
