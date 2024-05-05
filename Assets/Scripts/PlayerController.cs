@@ -1,16 +1,18 @@
 using Assets.Scripts.Core;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPlayer
 {
     public bool damageByMonsters;
 
-    public float playerSpeed;
+    public float initialMoveSpeed;
     public Camera playerCamera;
     public float mouseSensitivity;
     private CharacterController characterController;
     private float polar = 0;
     private float elevation = 0;
+
+    public float MoveSpeed { get; set; }
 
     public Vector2Int MapPos
     {
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        MoveSpeed = initialMoveSpeed;
         characterController = GetComponent<CharacterController>();
     }
 
@@ -40,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 offset = transform.forward * direction.x + Physics.gravity + transform.right * direction.z;
 
-        characterController.Move(offset * Time.deltaTime * playerSpeed);
+        characterController.Move(offset * Time.deltaTime * MoveSpeed);
     }
 
     private void PlayerLookAround()
@@ -60,7 +63,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Exit"))
         {
             UnityEditor.EditorApplication.isPlaying = false;
-        } 
+        }
         else if (other.CompareTag("Monster"))
         {
             if (damageByMonsters)

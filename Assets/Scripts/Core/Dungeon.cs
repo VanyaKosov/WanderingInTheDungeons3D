@@ -23,6 +23,12 @@ namespace Assets.Scripts.Core
         {
             map = TranslateMap(inputMap);
             monsterCount = Width * Height / cellsPerMonster;
+            //monsterCount = 1;
+        }
+
+        public Cells this[Vector2Int pos]
+        {
+            get => this[pos.y, pos.x];
         }
 
         public Cells this[int row, int col]
@@ -47,7 +53,21 @@ namespace Assets.Scripts.Core
 
         public Stack<Vector2Int> FindPath(Vector2Int start, Vector2Int target)
         {
-            Stack<Vector2Int> path = new Stack<Vector2Int>();
+            if (this[start] == Cells.Wall || this[start] == Cells.Exit)
+            {
+                throw new ArgumentException("Invalid start position: " + start);
+            }
+
+            if (this[target] == Cells.Wall || this[target] == Cells.Exit)
+            {
+                throw new ArgumentException("Invalid target position: " + target);
+            }
+
+            if (start == target)
+            {
+                throw new ArgumentException("Start and target are the same: " + start);
+            }
+
             int[,] stepMap = new int[Height, Width];
             for (int row = 0; row < Height; row++)
             {
@@ -56,27 +76,28 @@ namespace Assets.Scripts.Core
                     stepMap[row, col] = int.MaxValue;
                 }
             }
-            SortedSet<Vector2Int> positions = new SortedSet<Vector2Int>(new ByDistance(target)) { start };
+            PriorityQueue<Vector2Int> positions = new PriorityQueue<Vector2Int>((a, b) => a.ManhattanDistance(target) < b.ManhattanDistance(target));
+            positions.Push(start);
             stepMap[start.y, start.x] = 0;
 
             while (positions.Count > 0)
             {
-                Vector2Int pos = positions.First();
-                positions.Remove(pos);
+                Vector2Int pos = positions.Pop();
 
                 if (pos == target)
                 {
-                    Vector2Int currentPos = new Vector2Int(pos.x, pos.y);
-                    path.Push(currentPos);
+                    Stack<Vector2Int> path = new Stack<Vector2Int>();
 
-                    while (stepMap[currentPos.y, currentPos.x] > 1) // was 0
+                    path.Push(pos);
+
+                    while (stepMap[pos.y, pos.x] > 1)
                     {
-                        foreach (Vector2Int cell in currentPos.CellsAround())
+                        foreach (Vector2Int cell in pos.CellsAround())
                         {
-                            if (stepMap[cell.y, cell.x] == stepMap[currentPos.y, currentPos.x] - 1)
+                            if (stepMap[cell.y, cell.x] == stepMap[pos.y, pos.x] - 1)
                             {
                                 path.Push(cell);
-                                currentPos = cell;
+                                pos = cell;
 
                                 break;
                             }
@@ -89,15 +110,15 @@ namespace Assets.Scripts.Core
 
                 foreach (Vector2Int cell in pos.CellsAround())
                 {
-                    if (map[cell.y, cell.x] == Cells.Wall || map[cell.y, cell.x] == Cells.Exit) { continue; }
-                    if (stepMap[cell.y, cell.x] < stepMap[pos.y, pos.x] + 1) { continue; }
+                    if (this[cell] == Cells.Wall || this[cell] == Cells.Exit) { continue; }
+                    if (stepMap[cell.y, cell.x] <= stepMap[pos.y, pos.x]) { continue; }
                     stepMap[cell.y, cell.x] = stepMap[pos.y, pos.x] + 1;
 
-                    positions.Add(cell);
+                    positions.Push(cell);
                 }
             }
 
-            return path;
+            throw new InvalidOperationException("Path not found. Start: " + start + ", Target: " + target);
         }
 
         public Vector2Int GetRandomFreePos()
@@ -128,21 +149,6 @@ namespace Assets.Scripts.Core
             }
 
             return newMap;
-        }
-
-        private class ByDistance : IComparer<Vector2Int>
-        {
-            private readonly Vector2Int target;
-
-            public ByDistance(Vector2Int target)
-            {
-                this.target = target;
-            }
-
-            public int Compare(Vector2Int a, Vector2Int b)
-            {
-                return a.ManhattanDistance(target) - b.ManhattanDistance(target);
-            }
         }
     }
 }

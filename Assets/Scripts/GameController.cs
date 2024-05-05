@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < dungeon.MonsterCount; i++)
         {
             Vector2Int randomPos = dungeon.GetRandomFreePos();
-            Vector3 worldPos = Converter.MapToWorldPos(new Vector2Int(randomPos.x, randomPos.y));
+            Vector3 worldPos = Converter.MapToWorldPos(randomPos);
             worldPos.y += Converter.spawnOffset;
 
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
@@ -67,7 +67,7 @@ public class GameController : MonoBehaviour
     private void generateItems()
     {
         Vector2Int randomPos = dungeon.GetRandomFreePos();
-        Vector3 worldPos = Converter.MapToWorldPos(new Vector2Int(randomPos.x, randomPos.y));
+        Vector3 worldPos = Converter.MapToWorldPos(randomPos);
         worldPos.y += Converter.spawnOffset;
 
         Instantiate(speedBootsPrefab, worldPos, Quaternion.identity);

@@ -19,15 +19,11 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
-        while (path.Count == 0)
-        {
-            var randomPos = dungeon.GetRandomFreePos();
-            path = dungeon.FindPath(mapPos, randomPos);
-        }
+        //GenerateRandomPath();
 
-        nextMapPos = path.Pop();
-        worldTargetPos = Converter.MapToWorldPos(new Vector2Int(nextMapPos.x, nextMapPos.y));
-        worldTargetPos.y += Converter.spawnOffset;
+        //nextMapPos = path.Pop();
+        //worldTargetPos = Converter.MapToWorldPos(nextMapPos);
+        //worldTargetPos.y += Converter.spawnOffset;
 
         player = GameObject.Find("Player");
         playerController = player.GetComponent<PlayerController>();
@@ -43,10 +39,9 @@ public class Monster : MonoBehaviour
             return;
         }
 
-        while (path.Count == 0)
+        if (path.Count == 0)
         {
-            var randomPos = dungeon.GetRandomFreePos();
-            path = dungeon.FindPath(mapPos, randomPos);
+            GenerateRandomPath();
         }
 
         if ((transform.position - worldTargetPos).sqrMagnitude <= 1)
@@ -54,7 +49,7 @@ public class Monster : MonoBehaviour
             mapPos = nextMapPos;
             nextMapPos = path.Pop();
 
-            worldTargetPos = Converter.MapToWorldPos(new Vector2Int(nextMapPos.x, nextMapPos.y));
+            worldTargetPos = Converter.MapToWorldPos(nextMapPos);
             worldTargetPos.y += Converter.spawnOffset;
         }
 
@@ -70,7 +65,7 @@ public class Monster : MonoBehaviour
             path = dungeon.FindPath(mapPos, playerController.MapPos);
 
             nextMapPos = path.Pop(); // Sometimes causes empty stack exception
-            worldTargetPos = Converter.MapToWorldPos(new Vector2Int(nextMapPos.x, nextMapPos.y));
+            worldTargetPos = Converter.MapToWorldPos(nextMapPos);
             worldTargetPos.y += Converter.spawnOffset;
         }
 
@@ -89,6 +84,16 @@ public class Monster : MonoBehaviour
         }
 
         return playerDirection;
+    }
+
+    private void GenerateRandomPath()
+    {
+        Vector2Int randomPos;
+        do
+        {
+            randomPos = dungeon.GetRandomFreePos();
+        } while (randomPos == mapPos);
+        path = dungeon.FindPath(mapPos, randomPos);
     }
 
     public void Init(Dungeon dungeon, Vector2Int mapPos)

@@ -1,7 +1,7 @@
 ﻿
 namespace Assets.Scripts.Core
 {
-    public class Item
+    public abstract class Item
     {
         public readonly string name;
         public readonly string description;
@@ -12,9 +12,6 @@ namespace Assets.Scripts.Core
             this.description = description;
         }
 
-        public virtual void apply(PlayerController playerController)
-        {
-
-        }
+        public abstract void apply(IPlayer player);
     }
 }
