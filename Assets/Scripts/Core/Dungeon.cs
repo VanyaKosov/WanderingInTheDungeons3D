@@ -103,7 +103,6 @@ namespace Assets.Scripts.Core
                             }
                         }
                     }
-                    //path.Push(currentPos);
 
                     return path;
                 }

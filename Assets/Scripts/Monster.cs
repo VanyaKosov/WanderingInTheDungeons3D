@@ -19,22 +19,16 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
-        //GenerateRandomPath();
-
-        //nextMapPos = path.Pop();
-        //worldTargetPos = Converter.MapToWorldPos(nextMapPos);
-        //worldTargetPos.y += Converter.spawnOffset;
-
         player = GameObject.Find("Player");
         playerController = player.GetComponent<PlayerController>();
     }
 
     void Update()
     {
-        Vector3 playerDirection = ChasePlayer();
-        if (playerDirection != new Vector3(0, 0, 0))
+        Vector3? playerDirection = ChasePlayer();
+        if (playerDirection != null)
         {
-            characterController.SimpleMove(playerDirection * speed);
+            characterController.SimpleMove((Vector3)playerDirection * speed);
 
             return;
         }
@@ -42,9 +36,12 @@ public class Monster : MonoBehaviour
         if (path.Count == 0)
         {
             GenerateRandomPath();
-        }
 
-        if ((transform.position - worldTargetPos).sqrMagnitude <= 1)
+            nextMapPos = path.Pop();
+            worldTargetPos = Converter.MapToWorldPos(nextMapPos);
+            worldTargetPos.y += Converter.spawnOffset;
+        }
+        else if ((transform.position - worldTargetPos).sqrMagnitude <= 1)
         {
             mapPos = nextMapPos;
             nextMapPos = path.Pop();
@@ -64,7 +61,7 @@ public class Monster : MonoBehaviour
         {
             path = dungeon.FindPath(mapPos, playerController.MapPos);
 
-            nextMapPos = path.Pop(); // Sometimes causes empty stack exception
+            nextMapPos = path.Pop();
             worldTargetPos = Converter.MapToWorldPos(nextMapPos);
             worldTargetPos.y += Converter.spawnOffset;
         }
@@ -74,16 +71,14 @@ public class Monster : MonoBehaviour
         return offset.normalized;
     }
 
-    private Vector3 ChasePlayer()
+    private Vector3? ChasePlayer()
     {
-        Vector3 playerDirection = new Vector3(0, 0, 0);
-
-        if (playerController.MapPos == mapPos)
+        if ((playerController.transform.position - transform.position).magnitude < Converter.cellOffset)
         {
-            playerDirection = (player.transform.position - transform.position).normalized;
+            return (player.transform.position - transform.position).normalized;
         }
 
-        return playerDirection;
+        return null;
     }
 
     private void GenerateRandomPath()
