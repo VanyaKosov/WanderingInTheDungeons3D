@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SpinAround : MonoBehaviour
 {
-    public float speed = 1.0f;
+    public float rotationSpeed = 0.3f;
 
     void Update()
     {
-        transform.Rotate(Vector3.up, speed);
+        transform.Rotate(Vector3.up, rotationSpeed);
     }
 }

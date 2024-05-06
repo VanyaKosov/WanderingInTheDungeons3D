@@ -71,5 +71,12 @@ public class PlayerController : MonoBehaviour, IPlayer
                 UnityEditor.EditorApplication.isPlaying = false;
             }
         }
+        else if (other.CompareTag("SpeedBoots"))
+        {
+            SpeedBoots speedBoots = new SpeedBoots();
+            speedBoots.apply(this);
+
+            Destroy(other.gameObject);
+        }
     }
 }
