@@ -54,7 +54,8 @@ public class HUDController : MonoBehaviour
         pooledIndicators.Clear();
 
         IEnumerable<GameObject> closeMonsters = gameController.monsters.Where(
-            m => (playerController.gameObject.transform.position - m.transform.position).magnitude < worldRadarDistance
+            m => (playerController.gameObject.transform.position - m.transform.position)
+            .magnitude < worldRadarDistance
         );
 
         foreach (GameObject monster in closeMonsters)
@@ -62,8 +63,6 @@ public class HUDController : MonoBehaviour
             MonsterIndicator indicator = poolOfIndicators.Take();
             pooledIndicators.Add(indicator);
             indicator.gameObject.SetActive(true);
-
-
         }
     }
 
