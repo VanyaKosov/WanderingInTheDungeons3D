@@ -1,7 +1,5 @@
 using Assets.Scripts.Core;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -11,9 +9,9 @@ public class GameController : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject exitPrefab;
     public GameObject monsterPrefab;
+    public List<GameObject> monsters;
     private Dictionary<Cells, GameObject> cellConverter;
     private Dungeon dungeon;
-    private List<GameObject> monsters;
     private string[] testDungeonMap =
     {
         "#########",
