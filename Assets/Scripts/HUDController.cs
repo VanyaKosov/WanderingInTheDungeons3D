@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class HUDController : MonoBehaviour
 {
     //public TextMeshProUGUI testText;
+    public bool radarIsActive = false;
     public PlayerController playerController;
     public GameController gameController;
     public Canvas canvas;
@@ -38,6 +39,13 @@ public class HUDController : MonoBehaviour
 
     private void UpdateRadar()
     {
+        if (!radarIsActive)
+        {
+            radar.gameObject.SetActive(false);
+            return;
+        }
+        radar.gameObject.SetActive(true);
+
         foreach (MonsterIndicator indicator in pooledIndicators)
         {
             indicator.gameObject.SetActive(false);

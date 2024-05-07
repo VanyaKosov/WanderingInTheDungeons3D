@@ -7,6 +7,7 @@ TagManager:
   - Exit
   - Monster
   - SpeedBoots
+  - Radar
   layers:
   - Default
   - TransparentFX

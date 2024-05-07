@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public GameObject speedBootsPrefab;
+    public GameObject radarPrefab;
     public GameObject floorPrefab;
     public GameObject wallPrefab;
     public GameObject exitPrefab;
@@ -64,11 +65,20 @@ public class GameController : MonoBehaviour
 
     private void generateItems()
     {
-        Vector2Int randomPos = dungeon.GetRandomFreePos();
-        Vector3 worldPos = Converter.MapToWorldPos(randomPos);
-        worldPos.y += Converter.spawnOffset;
+        GameObject[] itemsToSpawn =
+        {
+            speedBootsPrefab,
+            radarPrefab
+        };
 
-        Instantiate(speedBootsPrefab, worldPos, Quaternion.identity);
+        foreach (GameObject itemPrefab in itemsToSpawn)
+        {
+            Vector2Int randomPos = dungeon.GetRandomFreePos();
+            Vector3 worldPos = Converter.MapToWorldPos(randomPos);
+            worldPos.y += Converter.spawnOffset;
+
+            Instantiate(itemPrefab, worldPos, Quaternion.identity);
+        }
     }
 
     private void FillCellConverter()

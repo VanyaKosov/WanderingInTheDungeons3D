@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     public float initialMoveSpeed;
     public Camera playerCamera;
     public float mouseSensitivity;
+    public HUDController HUDController;
     private CharacterController characterController;
     private float polar = 0;
     private float elevation = 0;
@@ -75,7 +76,11 @@ public class PlayerController : MonoBehaviour, IPlayer
         {
             SpeedBoots speedBoots = new SpeedBoots();
             speedBoots.apply(this);
-
+            Destroy(other.gameObject);
+        } 
+        else if (other.CompareTag("Radar"))
+        {
+            HUDController.radarIsActive = true;
             Destroy(other.gameObject);
         }
     }
