@@ -15,7 +15,7 @@ public class HUDController : MonoBehaviour
     public GameController gameController;
     public Canvas canvas;
     public Image radar;
-    public float worldRadarDistance = 48f;
+    public float worldRadarRadius = 24f;
     public GameObject indicatorPrefab;
     public RectTransform indicators;
     private Pool<MonsterIndicator> poolOfIndicators;
@@ -55,14 +55,29 @@ public class HUDController : MonoBehaviour
 
         IEnumerable<GameObject> closeMonsters = gameController.monsters.Where(
             m => (playerController.gameObject.transform.position - m.transform.position)
-            .magnitude < worldRadarDistance
+            .magnitude < worldRadarRadius
         );
 
+        var angle = Vector3.Angle(Vector3.forward, playerController.gameObject.transform.forward);
+        var crossProduct = Vector3.Cross(Vector3.forward, playerController.gameObject.transform.forward);
+        Vector3 radarPos = radar.rectTransform.position;
+        radarPos.z = 0;
         foreach (GameObject monster in closeMonsters)
         {
             MonsterIndicator indicator = poolOfIndicators.Take();
             pooledIndicators.Add(indicator);
             indicator.gameObject.SetActive(true);
+
+            Vector3 monsterOffset = monster.transform.position - playerController.transform.position;
+            float tempZ = monsterOffset.z;
+            monsterOffset.z = monsterOffset.y;
+            monsterOffset.y = tempZ;
+            monsterOffset = monsterOffset * radar.rectTransform.rect.width / worldRadarRadius * 0.85f;
+            monsterOffset.z = indicator.rectTransform.position.z;
+
+            indicator.rectTransform.position = monsterOffset + radarPos;
+            indicator.gameObject.transform.RotateAround(radar.rectTransform.position, Vector3.forward, angle * Mathf.Sign(crossProduct.y));
+            indicator.gameObject.transform.rotation = Quaternion.identity;
         }
     }
 
