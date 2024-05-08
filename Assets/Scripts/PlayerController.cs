@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IPlayer
 {
-    public bool damageByMonsters;
-
+    public bool Invulnerability;
+    public int hp = 100;
     public float initialMoveSpeed;
     public Camera playerCamera;
     public float mouseSensitivity;
@@ -67,9 +67,14 @@ public class PlayerController : MonoBehaviour, IPlayer
         }
         else if (other.CompareTag("Monster"))
         {
-            if (damageByMonsters)
+            if (!Invulnerability)
             {
-                UnityEditor.EditorApplication.isPlaying = false;
+                hp -= other.gameObject.GetComponent<Monster>().Damage;
+
+                if (hp <= 0)
+                {
+                    UnityEditor.EditorApplication.isPlaying = false;
+                }
             }
         }
         else if (other.CompareTag("SpeedBoots"))

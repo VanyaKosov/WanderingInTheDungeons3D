@@ -16,6 +16,12 @@ public class Monster : MonoBehaviour
     private Vector3 worldTargetPos;
     private GameObject player;
     private PlayerController playerController;
+    private int damage = 10;
+
+    public int Damage
+    {
+        get => damage;
+    }
 
     void Start()
     {
