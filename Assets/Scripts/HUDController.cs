@@ -17,7 +17,9 @@ public class HUDController : MonoBehaviour
     public Image radar;
     public float worldRadarRadius = 24f;
     public GameObject indicatorPrefab;
-    public RectTransform indicators;
+    public RectTransform monsterIndicators;
+    public GameObject healthBar;
+    private int maxHealth;
     private Pool<MonsterIndicator> poolOfIndicators;
     private List<MonsterIndicator> pooledIndicators = new List<MonsterIndicator>();
 
@@ -26,15 +28,24 @@ public class HUDController : MonoBehaviour
         poolOfIndicators = new Pool<MonsterIndicator>(() =>
         {
             MonsterIndicator mi = new MonsterIndicator();
-            mi.gameObject = Instantiate(indicatorPrefab, indicators);
+            mi.gameObject = Instantiate(indicatorPrefab, monsterIndicators);
             mi.rectTransform = mi.gameObject.GetComponent<RectTransform>();
             return mi;
         });
+
+        maxHealth = playerController.hp;
     }
 
     void Update()
     {
         UpdateRadar();
+        UpdateHealthBar();
+    }
+
+    private void UpdateHealthBar()
+    {
+        int health = playerController.hp;
+        healthBar.transform.localScale = new Vector3((float)health / (float)maxHealth, healthBar.transform.localScale.y);
     }
 
     private void UpdateRadar()
