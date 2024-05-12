@@ -965,7 +965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Invulnerability: 0
   hp: 100
-  initialMoveSpeed: 10
+  initialMoveSpeed: 6
   playerCamera: {fileID: 963194227}
   mouseSensitivity: 3
   HUDController: {fileID: 246315987}

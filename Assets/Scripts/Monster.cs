@@ -31,10 +31,16 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
+        Move();
+    }
+
+    private void Move()
+    {
         Vector3? playerDirection = ChasePlayer();
         if (playerDirection != null)
         {
             characterController.SimpleMove((Vector3)playerDirection * speed);
+            transform.LookAt(player.transform, Vector3.up);
 
             return;
         }
@@ -59,6 +65,9 @@ public class Monster : MonoBehaviour
         Vector3 speedOffset = CalculateOffset();
 
         characterController.SimpleMove(speedOffset * speed);
+
+        transform.LookAt(transform.position + speedOffset, Vector3.up);
+        //transform.LookAt(player.transform, Vector3.up);
     }
 
     private Vector3 CalculateOffset()
