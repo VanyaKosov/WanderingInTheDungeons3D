@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   characterController: {fileID: 3500533047842061824}
+  animator: {fileID: 266907666084619519}
 --- !u!143 &3500533047842061824
 CharacterController:
   m_ObjectHideFlags: 0
@@ -219,6 +220,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1d589229c053ab46a7ebdf5ca4b0769, type: 3}
+--- !u!95 &266907666084619519 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5175869751466687459, guid: d1d589229c053ab46a7ebdf5ca4b0769, type: 3}
+  m_PrefabInstance: {fileID: 4927040272745963292}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6224375730777666605 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1297372841494293297, guid: d1d589229c053ab46a7ebdf5ca4b0769, type: 3}

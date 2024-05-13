@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IPlayer
 {
-    public bool Invulnerability;
+    public bool invulnerability;
     public int hp = 100;
     public float initialMoveSpeed;
     public Camera playerCamera;
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         }
         else if (other.CompareTag("Monster"))
         {
-            if (!Invulnerability)
+            /*if (!Invulnerability)
             {
                 hp -= other.gameObject.GetComponent<Monster>().Damage;
 
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour, IPlayer
                 {
                     UnityEditor.EditorApplication.isPlaying = false;
                 }
-            }
+            }*/
         }
         else if (other.CompareTag("SpeedBoots"))
         {
