@@ -149,5 +149,54 @@ namespace Assets.Scripts.Core
 
             return newMap;
         }
+
+        private Cells[,] GenerateMap()
+        {
+            Cells[,] newMap = new Cells[13, 13]; // Dimentions must be odd.
+            int height = newMap.GetLength(0);
+            int width = newMap.GetLength(1);
+
+            for (int row = 0; row < height; row++)
+            {
+                for (int col = 0; col < width; col++)
+                {
+                    newMap[row, col] = Cells.Wall;
+                }
+            }
+
+            bool[,] visitedCells = new bool[(height - 1) / 2, (height - 1) / 2];
+
+            RandomizedDFS(visitedCells, new Vector2Int(0, 0));
+
+            return newMap;
+        }
+
+        private void RandomizedDFS(bool[,] visitedCells, Vector2Int currentPos)
+        {
+            //Vector2Int[] randomPosAround = 
+            //if (pos.y < 0 || pos.y > visitedCells.GetLength(0) ||
+            //    pos.x < 0 || pos.x > visitedCells.GetLength(1)) { continue; }
+        }
+
+        /*private IEnumerable<Vector2Int> RandomizeCellsAround(IEnumerable<Vector2Int>[] array)
+        {
+            bool[] randomizedArray = new bool[array.Length];
+            foreach (IEnumerable<Vector2Int> pos in array)
+            {
+                while(true)
+                {
+                    int randomIndex = randgen.Next(array.Length);
+                    if (randomizedArray[randomIndex])
+                    {
+                        continue;
+                    }
+
+                    randomizedArray[randomIndex] = true;
+                    break;
+                }
+
+                yield return new Vector2Int(pos.x, pos.y);
+            }
+        }*/
     }
 }
