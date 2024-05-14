@@ -33,7 +33,7 @@ public class HUDController : MonoBehaviour
             return mi;
         });
 
-        maxHealth = playerController.hp;
+        maxHealth = playerController.Hp;
     }
 
     void Update()
@@ -44,7 +44,7 @@ public class HUDController : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        int health = playerController.hp;
+        int health = playerController.Hp;
         healthBar.transform.localScale = new Vector3((float)health / (float)maxHealth, healthBar.transform.localScale.y);
     }
 

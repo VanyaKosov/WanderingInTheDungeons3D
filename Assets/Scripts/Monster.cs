@@ -1,18 +1,19 @@
+using Assets.Scripts;
 using Assets.Scripts.Core;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
     private const int detectionRangeWorld = 12;
-    //private const float attackLength = 2.467f;
-    private const float attackLength = 2.0f;
-    private const float attackWait = 1.1f;
+    private const float attackWait = 0.9f;
     private const float attackRange = 1.5f;
 
     public float speed;
     public CharacterController characterController;
     public Animator animator;
+    public Animation attackAnimation;
     private Vector2Int mapPos;
     private Vector2Int nextMapPos;
     private Dungeon dungeon;
@@ -21,7 +22,7 @@ public class Monster : MonoBehaviour
     private GameObject player;
     private PlayerController playerController;
     private int damage = 10;
-    private float attackState = 0;
+    private Coroutine attackCoroutine;
 
     public int Damage
     {
@@ -37,48 +38,29 @@ public class Monster : MonoBehaviour
     void Update()
     {
         Attack();
-        if (attackState >= attackLength)
-        {
-            attackState = 0f;
-        }
 
-        if (attackState > 0f) {
-            attackState += Time.deltaTime;
-
-            return; 
-        }
+        if (attackCoroutine != null) { return; }
 
         Move();
     }
 
     private void Attack()
     {
-        float distanceToPlayer = (player.transform.position - transform.position).magnitude;
+        if (attackCoroutine != null) { return; }
 
-        if (attackState >= attackWait - 0.1f && attackState <= attackWait + 0.1f)
-        {
-            if (playerController.invulnerability) { return; }
-            if (distanceToPlayer > attackRange)
-            {
-                return;
-            }
-            playerController.hp -= damage;
-            if (playerController.hp <= 0)
-            {
-                UnityEditor.EditorApplication.isPlaying = false;
-            }
-        }
+        if ((player.transform.position - transform.position).magnitude > attackRange) { return; }
 
-        if (attackState > 0f)
-        {
-            return;
-        }
+        attackCoroutine = StartCoroutine("DoAttack");
+    }
 
-        if (distanceToPlayer <= attackRange)
-        {
-            animator.SetTrigger("attack");
-            attackState = 0.001f;
-        }
+    private IEnumerator DoAttack()
+    {
+        animator.SetTrigger("attack");
+        yield return new WaitForSeconds(attackWait);
+        playerController.Hp -= damage; // TODO: decrease health only if in damage radius
+
+        yield return WaitForAnimatorState.Do(animator, "run");
+        attackCoroutine = null;
     }
 
     private void Move()

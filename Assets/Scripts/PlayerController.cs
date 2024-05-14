@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, IPlayer
 {
     public bool invulnerability;
-    public int hp = 100;
+    private int hp = 100;
     public float initialMoveSpeed;
     public Camera playerCamera;
     public float mouseSensitivity;
@@ -18,6 +18,20 @@ public class PlayerController : MonoBehaviour, IPlayer
     public Vector2Int MapPos
     {
         get => Converter.WorldToMapPos(transform.position);
+    }
+
+    public int Hp
+    {
+        get => hp;
+        set
+        {
+            hp = value;
+            if (hp <= 0)
+            {
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+            // TODO Limit health
+        }
     }
 
     private void Start()
@@ -82,7 +96,7 @@ public class PlayerController : MonoBehaviour, IPlayer
             SpeedBoots speedBoots = new SpeedBoots();
             speedBoots.apply(this);
             Destroy(other.gameObject);
-        } 
+        }
         else if (other.CompareTag("Radar"))
         {
             HUDController.radarIsActive = true;
