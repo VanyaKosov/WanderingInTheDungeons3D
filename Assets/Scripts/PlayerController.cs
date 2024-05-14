@@ -4,11 +4,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour, IPlayer
 {
     public bool invulnerability;
-    private int hp = 100;
     public float initialMoveSpeed;
     public Camera playerCamera;
     public float mouseSensitivity;
     public HUDController HUDController;
+    private int health = 100;
+    private int maxHealth = 100;
     private CharacterController characterController;
     private float polar = 0;
     private float elevation = 0;
@@ -20,18 +21,24 @@ public class PlayerController : MonoBehaviour, IPlayer
         get => Converter.WorldToMapPos(transform.position);
     }
 
-    public int Hp
+    public int Health
     {
-        get => hp;
+        get => health;
         set
         {
-            hp = value;
-            if (hp <= 0)
+            if (invulnerability) { return; }
+
+            health = Mathf.Min(value, MaxHealth);
+            if (health <= 0)
             {
                 UnityEditor.EditorApplication.isPlaying = false;
             }
-            // TODO Limit health
         }
+    }
+
+    public int MaxHealth
+    {
+        get => maxHealth;
     }
 
     private void Start()

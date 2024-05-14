@@ -57,7 +57,10 @@ public class Monster : MonoBehaviour
     {
         animator.SetTrigger("attack");
         yield return new WaitForSeconds(attackWait);
-        playerController.Hp -= damage; // TODO: decrease health only if in damage radius
+        if ((player.transform.position - transform.position).magnitude < attackRange)
+        {
+            playerController.Health -= damage;
+        }
 
         yield return WaitForAnimatorState.Do(animator, "run");
         attackCoroutine = null;
