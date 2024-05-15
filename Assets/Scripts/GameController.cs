@@ -37,7 +37,8 @@ public class GameController : MonoBehaviour
 
     private void GenerateDungeon(string[] inputDungeonMap)
     {
-        dungeon = new Dungeon(inputDungeonMap);
+        //dungeon = new Dungeon(inputDungeonMap);
+        dungeon = new Dungeon();
 
         for (int row = 0; row < dungeon.Width; row++)
         {
