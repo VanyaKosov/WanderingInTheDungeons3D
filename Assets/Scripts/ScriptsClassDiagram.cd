@@ -20,21 +20,21 @@
       </Class>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAQAABAIACACAAIQAAAgAAACAAAABAAAAhBAACAQAAA=</HashCode>
+      <HashCode>AAQAABAAACACAAIQAAAgAAACAAAABAAAAhBAACAQAAA=</HashCode>
       <FileName>Assets\Scripts\HUDController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Monster">
     <Position X="8" Y="0.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAQAAACAACAAgCgQAIQCAACAADAAAQABAABCAAIAAAA=</HashCode>
+      <HashCode>BgQAAACAAKAggCgQBIQCBACAALAAAQBBAABCAAIAAAA=</HashCode>
       <FileName>Assets\Scripts\Monster.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerController">
     <Position X="12" Y="0.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAQAgAAAACAQABgAAAAAAAICEAAAgABAQCBAACIAAAA=</HashCode>
+      <HashCode>AAQACAAIACAQCBgAAAAAAAICEAAAgABAQCAAACIAAIg=</HashCode>
       <FileName>Assets\Scripts\PlayerController.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
