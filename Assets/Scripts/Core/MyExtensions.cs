@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
@@ -22,13 +23,9 @@ namespace Assets.Scripts.Core
 
         public static IEnumerable<Vector2Int> RandomCellsAround(this Vector2Int currentPos)
         {
-            List<Vector2Int> cellsAround = new List<Vector2Int>();
-            foreach (Vector2Int pos in currentPos.CellsAround())
-            {
-                cellsAround.Add(pos);
-            }
+            List<Vector2Int> cellsAround = currentPos.CellsAround().ToList();
 
-            for (int i = 0; i < 4; i++)
+            while (cellsAround.Count > 0)
             {
                 int randomIndex = randgen.Next(cellsAround.Count);
                 yield return cellsAround[randomIndex];

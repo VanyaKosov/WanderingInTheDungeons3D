@@ -21,15 +21,15 @@ namespace Assets.Scripts.Core
         public Dungeon(string[] inputMap)
         {
             map = TranslateMap(inputMap);
-            monsterCount = Width * Height / cellsPerMonster;
             //monsterCount = 1;
+            monsterCount = Width * Height / cellsPerMonster;
         }
 
         public Dungeon()
         {
             map = TranslateMap();
-            //monsterCount = Width * Height / cellsPerMonster;
-            monsterCount = 0;
+            //monsterCount = 0;
+            monsterCount = Width * Height / cellsPerMonster;
         }
 
         public Cells this[Vector2Int pos]
@@ -158,20 +158,20 @@ namespace Assets.Scripts.Core
 
         private Cells[,] TranslateMap()
         {
-            return GenerateMap();
+            return GenerateMap(15, 15);
         }
 
-        private Cells[,] GenerateMap()
+        private static Cells[,] GenerateMap(int mapWidth, int mapHeight) // Dimentions must be odd.
         {
-            Cells[,] newMap = new Cells[13, 13]; // Dimentions must be odd.
-            int height = newMap.GetLength(0);
-            int width = newMap.GetLength(1);
+            Cells[,] map = new Cells[mapHeight, mapWidth];
+            int height = map.GetLength(0);
+            int width = map.GetLength(1);
 
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
                 {
-                    newMap[row, col] = Cells.Wall;
+                    map[row, col] = Cells.Wall;
                 }
             }
 
@@ -181,30 +181,30 @@ namespace Assets.Scripts.Core
             {
                 for (int col = 0; col < visitedCells.GetLength(1); col++)
                 {
-                    newMap[row * 2 + 2, col * 2 + 2] = Cells.Empty;
+                    map[row * 2 + 1, col * 2 + 1] = Cells.Empty;
                 }
             }
 
-            RandomizedDFS(newMap, visitedCells, new Vector2Int(0, 0));
+            visitedCells[0, 0] = true;
+            RandomizedDFS(map, visitedCells, new Vector2Int(0, 0));
 
-            return newMap;
+            return map;
         }
 
-        private void RandomizedDFS(Cells[,] newMap, bool[,] visitedCells, Vector2Int currentPos)
+        private static void RandomizedDFS(Cells[,] map, bool[,] visitedCells, Vector2Int currentPos)
         {
             foreach (Vector2Int pos in currentPos.RandomCellsAround())
             {
                 if (pos.y < 0 || pos.y >= visitedCells.GetLength(0) ||
-                pos.x < 0 || pos.x >= visitedCells.GetLength(1)) { continue; }
+                    pos.x < 0 || pos.x >= visitedCells.GetLength(1)) { continue; }
 
                 if (visitedCells[pos.y, pos.x]) { continue; }
 
                 visitedCells[pos.y, pos.x] = true;
-                newMap[pos.y * 2 + 1, pos.x * 2 + 1] = Cells.Empty;
-                RandomizedDFS(newMap, visitedCells, pos);
+                Vector2Int offset = pos - currentPos;
+                map[currentPos.y * 2 + 1 + offset.y, currentPos.x * 2 + 1 + offset.x] = Cells.Empty;
+                RandomizedDFS(map, visitedCells, pos);
             }
-
-            return;
         }
     }
 }
