@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -583,6 +583,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 6081631319121627744, guid: 336d2ce1a724df846ae2c62f965cab0b, type: 3}
   exitPrefab: {fileID: 7557807278023935242, guid: e8947669827d2f94bb2615c9b562e7f6, type: 3}
   monsterPrefab: {fileID: 7407751968917775792, guid: 619098999009654438532a9018bfad9b, type: 3}
+  player: {fileID: 2081383281}
   monsters: []
 --- !u!4 &1910375842
 Transform:
@@ -963,7 +964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149d375eec6ca3746a4209f0a3c53679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invulnerability: 0
+  invulnerability: 1
   initialMoveSpeed: 6
   playerCamera: {fileID: 963194227}
   mouseSensitivity: 3

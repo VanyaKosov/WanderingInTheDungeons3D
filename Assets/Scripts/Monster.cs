@@ -91,7 +91,7 @@ public class Monster : MonoBehaviour
             nextMapPos = path.Pop();
 
             worldTargetPos = Converter.MapToWorldPos(nextMapPos);
-            worldTargetPos.y += Converter.spawnOffset;
+            worldTargetPos.y += transform.position.y;
         }
 
         Vector3 speedOffset = CalculateOffset();

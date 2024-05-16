@@ -88,15 +88,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         }
         else if (other.CompareTag("Monster"))
         {
-            /*if (!Invulnerability)
-            {
-                hp -= other.gameObject.GetComponent<Monster>().Damage;
 
-                if (hp <= 0)
-                {
-                    UnityEditor.EditorApplication.isPlaying = false;
-                }
-            }*/
         }
         else if (other.CompareTag("SpeedBoots"))
         {

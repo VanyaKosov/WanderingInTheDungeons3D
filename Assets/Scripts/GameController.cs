@@ -10,7 +10,9 @@ public class GameController : MonoBehaviour
     public GameObject wallPrefab;
     public GameObject exitPrefab;
     public GameObject monsterPrefab;
+    public GameObject player;
     public List<GameObject> monsters;
+    private const float worldPlayerSpawnRadius = 12.0f;
     private Dictionary<Cells, GameObject> cellConverter;
     private Dungeon dungeon;
     private string[] testDungeonMap =
@@ -39,6 +41,9 @@ public class GameController : MonoBehaviour
     {
         //dungeon = new Dungeon(inputDungeonMap);
         dungeon = new Dungeon();
+        Vector3 startPlayerPos = Converter.MapToWorldPos(dungeon.StartPlayerPos);
+        startPlayerPos.y = player.transform.position.y;
+        player.transform.position = startPlayerPos;
 
         for (int row = 0; row < dungeon.Width; row++)
         {
@@ -58,6 +63,8 @@ public class GameController : MonoBehaviour
             Vector2Int randomPos = dungeon.GetRandomFreePos();
             Vector3 worldPos = Converter.MapToWorldPos(randomPos);
             worldPos.y += Converter.spawnOffset;
+
+            if ((worldPos - player.transform.position).magnitude < worldPlayerSpawnRadius) { continue; }
 
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
             monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, randomPos);

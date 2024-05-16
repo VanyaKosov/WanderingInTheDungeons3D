@@ -7,11 +7,13 @@ namespace Assets.Scripts.Core
 {
     public class Dungeon
     {
+        private const int startRoomRadius = 1;
         private const int cellsPerMonster = 30;
         private const int cellsPerWallRemoved = 30;
         private static readonly System.Random randgen = new System.Random();
         private readonly Cells[,] map;
         private int monsterCount;
+        private Vector2Int startPlayerPos;
         private Dictionary<char, Cells> cellConverter = new Dictionary<char, Cells>
         {
             { ' ', Cells.Empty },
@@ -27,8 +29,9 @@ namespace Assets.Scripts.Core
 
         public Dungeon()
         {
-            map = TranslateMap();
-            MakeHolesInWalls(map, Width * Height / cellsPerWallRemoved);
+            map = TranslateMap(15, 15);
+            MakeHolesInWalls(Width * Height / cellsPerWallRemoved);
+            startPlayerPos = new Vector2Int((Width - 1) / 2, (Height - 1) / 2);
             monsterCount = Width * Height / cellsPerMonster;
         }
 
@@ -40,6 +43,11 @@ namespace Assets.Scripts.Core
         public Cells this[int row, int col]
         {
             get => map[row, col];
+        }
+
+        public Vector2Int StartPlayerPos
+        {
+            get => startPlayerPos;
         }
 
         public int MonsterCount
@@ -171,12 +179,12 @@ namespace Assets.Scripts.Core
             return newMap;
         }
 
-        private Cells[,] TranslateMap()
+        private Cells[,] TranslateMap(int width, int height)
         {
-            return GenerateMap(15, 15);
+            return GenerateMap(width, height);
         }
 
-        private void MakeHolesInWalls(Cells[,] map, int holesToMake)
+        private void MakeHolesInWalls(int holesToMake)
         {
             while (holesToMake > 0)
             {
@@ -197,8 +205,28 @@ namespace Assets.Scripts.Core
             }
         }
 
+        /*private Vector2Int MakeCenterSpawnRoom()
+        {
+            Vector2Int playerMapPos = new Vector2Int((Width - 1) / 2, (Height - 1) / 2);
+
+            for (int row = playerMapPos.y - startRoomRadius; row <= playerMapPos.y + startRoomRadius; row++)
+            {
+                for (int col = playerMapPos.x - startRoomRadius; col <= playerMapPos.x + startRoomRadius; col++)
+                {
+                    map[row, col] = Cells.Empty;
+                }
+            }
+
+            return playerMapPos;
+        }*/
+
         private static Cells[,] GenerateMap(int mapWidth, int mapHeight) // Dimentions must be odd.
         {
+            if (mapWidth % 2 == 0 || mapHeight % 2 == 0)
+            {
+                throw new ArgumentException("Width and height must be odd numbers");
+            }
+
             Cells[,] map = new Cells[mapHeight, mapWidth];
             int height = map.GetLength(0);
             int width = map.GetLength(1);
