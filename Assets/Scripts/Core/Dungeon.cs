@@ -8,6 +8,7 @@ namespace Assets.Scripts.Core
     public class Dungeon
     {
         private const int cellsPerMonster = 30;
+        private const int cellsPerWallRemoved = 30;
         private static readonly System.Random randgen = new System.Random();
         private readonly Cells[,] map;
         private int monsterCount;
@@ -21,14 +22,13 @@ namespace Assets.Scripts.Core
         public Dungeon(string[] inputMap)
         {
             map = TranslateMap(inputMap);
-            //monsterCount = 1;
             monsterCount = Width * Height / cellsPerMonster;
         }
 
         public Dungeon()
         {
             map = TranslateMap();
-            //monsterCount = 0;
+            MakeHolesInWalls(map, Width * Height / cellsPerWallRemoved);
             monsterCount = Width * Height / cellsPerMonster;
         }
 
@@ -141,6 +141,21 @@ namespace Assets.Scripts.Core
             }
         }
 
+        private Vector2Int GetRandomWallPos()
+        {
+            while (true)
+            {
+                Vector2Int cords = new Vector2Int(randgen.Next(1, Width - 1), randgen.Next(1, Height - 1));
+
+                if (this[cords.y, cords.x] != Cells.Wall)
+                {
+                    continue;
+                }
+
+                return cords;
+            }
+        }
+
         private Cells[,] TranslateMap(string[] inputMap)
         {
             Cells[,] newMap = new Cells[inputMap.Length, inputMap[0].Length];
@@ -159,6 +174,27 @@ namespace Assets.Scripts.Core
         private Cells[,] TranslateMap()
         {
             return GenerateMap(15, 15);
+        }
+
+        private void MakeHolesInWalls(Cells[,] map, int holesToMake)
+        {
+            while (holesToMake > 0)
+            {
+                Vector2Int wallPos = GetRandomWallPos();
+                int wallsAround = 0;
+                foreach (Vector2Int pos in wallPos.CellsAround())
+                {
+                    if (this[pos] == Cells.Wall)
+                    {
+                        wallsAround++;
+                    }
+                }
+
+                if (wallsAround != 2) { continue; }
+
+                map[wallPos.y, wallPos.x] = Cells.Empty;
+                holesToMake--;
+            }
         }
 
         private static Cells[,] GenerateMap(int mapWidth, int mapHeight) // Dimentions must be odd.
