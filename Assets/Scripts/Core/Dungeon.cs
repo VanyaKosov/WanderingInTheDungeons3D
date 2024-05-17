@@ -7,7 +7,7 @@ namespace Assets.Scripts.Core
 {
     public class Dungeon
     {
-        private const int startRoomRadius = 1;
+        //private const int startRoomRadius = 1;
         private const int cellsPerMonster = 30;
         private const int cellsPerWallRemoved = 30;
         private static readonly System.Random randgen = new System.Random();

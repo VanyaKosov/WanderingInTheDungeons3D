@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     public Camera playerCamera;
     public float mouseSensitivity;
     public HUDController HUDController;
+    public WeaponMove swordMove; 
     private int health = 100;
     private int maxHealth = 100;
     private CharacterController characterController;
