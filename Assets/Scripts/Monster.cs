@@ -10,6 +10,7 @@ public class Monster : MonoBehaviour
     private const int detectionRangeWorld = 12;
     private const float attackWait = 0.9f;
     private const float attackRange = 1.5f;
+    private const float attackDegreeLimit = 80.0f;
 
     public float speed;
     public CharacterController characterController;
@@ -47,7 +48,6 @@ public class Monster : MonoBehaviour
     private void Attack()
     {
         if (attackCoroutine != null) { return; }
-
         if ((player.transform.position - transform.position).magnitude > attackRange) { return; }
 
         attackCoroutine = StartCoroutine("DoAttack");
@@ -57,9 +57,15 @@ public class Monster : MonoBehaviour
     {
         animator.SetTrigger("attack");
         yield return new WaitForSeconds(attackWait);
-        if ((player.transform.position - transform.position).magnitude < attackRange)
+
+        Vector3 playerDirection = player.transform.position - transform.position;
+        if (playerDirection.magnitude < attackRange)
         {
-            playerController.Health -= damage;
+            float playerDegrees = Mathf.Abs(Mathf.Acos(Vector3.Dot(transform.forward, playerDirection.normalized)) * Mathf.Rad2Deg);
+            if (playerDegrees < attackDegreeLimit)
+            {
+                playerController.Health -= damage;
+            }
         }
 
         yield return WaitForAnimatorState.Do(animator, "run");
