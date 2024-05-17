@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using Assets.Scripts.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,6 @@ public class Monster : MonoBehaviour
     public float speed;
     public CharacterController characterController;
     public Animator animator;
-    public Animation attackAnimation;
     private Vector2Int mapPos;
     private Vector2Int nextMapPos;
     private Dungeon dungeon;
