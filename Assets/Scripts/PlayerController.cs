@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     public Camera playerCamera;
     public float mouseSensitivity;
     public HUDController HUDController;
-    public WeaponMove swordMove; 
+    public Animator weaponAnimator;
     private int health = 100;
     private int maxHealth = 100;
     private CharacterController characterController;
@@ -52,6 +52,15 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         PlayerMove();
         PlayerLookAround();
+        PlayerAttack();
+    }
+
+    private void PlayerAttack()
+    {
+        bool leftClicked = Input.GetMouseButtonDown(0);
+        if (!leftClicked) { return; }
+
+        weaponAnimator.SetTrigger("attack");
     }
 
     private void PlayerMove()
