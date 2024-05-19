@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
-    private const int detectionRangeWorld = 12;
+    private const int detectionRangeMap = 3;
     private const float attackWait = 0.9f;
     private const float attackRange = 1.5f;
     private const float attackDegreeLimit = 80.0f;
@@ -15,7 +15,6 @@ public class Monster : MonoBehaviour
     public float speed;
     public CharacterController characterController;
     public Animator animator;
-    private Vector2Int mapPos;
     private Vector2Int nextMapPos;
     private Dungeon dungeon;
     private Stack<Vector2Int> path = new Stack<Vector2Int>();
@@ -28,6 +27,11 @@ public class Monster : MonoBehaviour
     public int Damage
     {
         get => damage;
+    }
+
+    public Vector2Int MapPos
+    {
+        get => Converter.WorldToMapPos(transform.position);
     }
 
     void Start()
@@ -89,11 +93,10 @@ public class Monster : MonoBehaviour
 
             nextMapPos = path.Pop();
             worldTargetPos = Converter.MapToWorldPos(nextMapPos);
-            worldTargetPos.y += Converter.spawnOffset;
+            worldTargetPos.y += Converter.spawnVerticalOffset;
         }
         else if ((transform.position - worldTargetPos).sqrMagnitude <= 1)
         {
-            mapPos = nextMapPos;
             nextMapPos = path.Pop();
 
             worldTargetPos = Converter.MapToWorldPos(nextMapPos);
@@ -105,18 +108,17 @@ public class Monster : MonoBehaviour
         characterController.SimpleMove(speedOffset * speed);
 
         transform.LookAt(transform.position + speedOffset, Vector3.up);
-        //transform.LookAt(player.transform, Vector3.up);
     }
 
     private Vector3 CalculateOffset()
     {
-        if ((player.transform.position - transform.position).magnitude < detectionRangeWorld)
+        if (playerController.MapPos.ManhattanDistance(MapPos) <= detectionRangeMap)
         {
-            path = dungeon.FindPath(mapPos, playerController.MapPos);
+            path = dungeon.FindPath(MapPos, playerController.MapPos);
 
             nextMapPos = path.Pop();
             worldTargetPos = Converter.MapToWorldPos(nextMapPos);
-            worldTargetPos.y += Converter.spawnOffset;
+            worldTargetPos.y += Converter.spawnVerticalOffset;
         }
 
         Vector3 offset = worldTargetPos - transform.position;
@@ -126,7 +128,7 @@ public class Monster : MonoBehaviour
 
     private Vector3? ChasePlayer()
     {
-        if ((playerController.transform.position - transform.position).magnitude < Converter.cellOffset)
+        if ((playerController.transform.position - transform.position).magnitude < Converter.cellOffset || playerController.MapPos == MapPos)
         {
             return (player.transform.position - transform.position).normalized;
         }
@@ -140,13 +142,12 @@ public class Monster : MonoBehaviour
         do
         {
             randomPos = dungeon.GetRandomFreePos();
-        } while (randomPos == mapPos);
-        path = dungeon.FindPath(mapPos, randomPos);
+        } while (randomPos == MapPos);
+        path = dungeon.FindPath(MapPos, randomPos);
     }
 
-    public void Init(Dungeon dungeon, Vector2Int mapPos)
+    public void Init(Dungeon dungeon)
     {
         this.dungeon = dungeon;
-        this.mapPos = mapPos;
     }
 }

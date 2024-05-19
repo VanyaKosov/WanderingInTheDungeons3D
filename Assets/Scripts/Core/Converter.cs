@@ -5,7 +5,7 @@ namespace Assets.Scripts.Core
     public class Converter
     {
         public const float cellOffset = 6;
-        public const float spawnOffset = 2;
+        public const float spawnVerticalOffset = 2;
 
         public static Vector2Int WorldToMapPos(Vector3 worldPos)
         {
