@@ -1,19 +1,28 @@
+using Assets.Scripts;
 using Assets.Scripts.Core;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IPlayer
 {
+    private const int damage = 10;
+    private const float attackWait = 0.4f;
+    private const float attackRange = 1.5f;
+    private const float attackDegreeLimit = 60.0f;
+
     public bool invulnerability;
     public float initialMoveSpeed;
     public Camera playerCamera;
     public float mouseSensitivity;
     public HUDController HUDController;
     public Animator weaponAnimator;
+    public GameController gameController;
     private int health = 100;
     private int maxHealth = 100;
     private CharacterController characterController;
     private float polar = 0;
     private float elevation = 0;
+    private Coroutine attackCorutine;
 
     public float MoveSpeed { get; set; }
 
@@ -57,10 +66,39 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void PlayerAttack()
     {
+        if (attackCorutine != null) { return; }
         bool leftClicked = Input.GetMouseButtonDown(0);
         if (!leftClicked) { return; }
 
+        attackCorutine = StartCoroutine(DoAttack());
+    }
+
+    private IEnumerator DoAttack()
+    {
         weaponAnimator.SetTrigger("attack");
+        yield return new WaitForSeconds(attackWait);
+
+        for (int i = 0; i < gameController.monsters.Count; i++)
+        {
+            GameObject monster = gameController.monsters[i];
+            Vector3 monsterDirection = monster.transform.position - transform.position;
+
+            if (monsterDirection.magnitude > attackRange) { continue; }
+
+            float monsterDegrees = Mathf.Abs(Mathf.Acos(Vector3.Dot(transform.forward, monsterDirection.normalized)) * Mathf.Rad2Deg);
+            if (monsterDegrees <= attackDegreeLimit)
+            {
+                Monster monsterController = monster.GetComponent<Monster>();
+                monsterController.Health -= damage;
+                if (monsterController.Health <= 0)
+                {
+                    gameController.monsters.Remove(monster);
+                }
+            }
+        }
+
+        yield return WaitForAnimatorState.Do(weaponAnimator, "PlayerIdleAnimation");
+        attackCorutine = null;
     }
 
     private void PlayerMove()

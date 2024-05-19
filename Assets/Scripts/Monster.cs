@@ -15,6 +15,8 @@ public class Monster : MonoBehaviour
     public float speed;
     public CharacterController characterController;
     public Animator animator;
+    private int health = 60;
+    private int MaxHealth = 60;
     private Vector2Int nextMapPos;
     private Dungeon dungeon;
     private Stack<Vector2Int> path = new Stack<Vector2Int>();
@@ -27,6 +29,19 @@ public class Monster : MonoBehaviour
     public int Damage
     {
         get => damage;
+    }
+
+    public int Health
+    {
+        get => health;
+        set
+        {
+            health = Mathf.Min(value, MaxHealth);
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     public Vector2Int MapPos
@@ -54,7 +69,7 @@ public class Monster : MonoBehaviour
         if (attackCoroutine != null) { return; }
         if ((player.transform.position - transform.position).magnitude > attackRange) { return; }
 
-        attackCoroutine = StartCoroutine("DoAttack");
+        attackCoroutine = StartCoroutine(DoAttack());
     }
 
     private IEnumerator DoAttack()
@@ -66,7 +81,7 @@ public class Monster : MonoBehaviour
         if (playerDirection.magnitude < attackRange)
         {
             float playerDegrees = Mathf.Abs(Mathf.Acos(Vector3.Dot(transform.forward, playerDirection.normalized)) * Mathf.Rad2Deg);
-            if (playerDegrees < attackDegreeLimit)
+            if (playerDegrees <= attackDegreeLimit)
             {
                 playerController.Health -= damage;
             }

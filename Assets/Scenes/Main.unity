@@ -1126,6 +1126,7 @@ MonoBehaviour:
   mouseSensitivity: 3
   HUDController: {fileID: 246315987}
   weaponAnimator: {fileID: 486785346}
+  gameController: {fileID: 1910375841}
 --- !u!1 &2083891329
 GameObject:
   m_ObjectHideFlags: 0
