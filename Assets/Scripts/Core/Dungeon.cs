@@ -33,6 +33,7 @@ namespace Assets.Scripts.Core
             MakeHolesInWalls(Width * Height / cellsPerWallRemoved);
             startPlayerPos = new Vector2Int((Width - 1) / 2, (Height - 1) / 2);
             monsterCount = Width * Height / cellsPerMonster;
+            //monsterCount = 0;
         }
 
         public Cells this[Vector2Int pos]

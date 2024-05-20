@@ -59,17 +59,24 @@ public class GameController : MonoBehaviour
         startPlayerPos.y = player.transform.position.y;
         player.transform.position = startPlayerPos;
 
+        Vector2Int exitMapPos = new Vector2Int((dungeon.Height - 1) / 2, 0);
+        Instantiate(floorPrefab, Converter.MapToWorldPos(exitMapPos), Quaternion.identity);
+        Instantiate(exitPrefab, Converter.MapToWorldPos(exitMapPos), Quaternion.Euler(0, 180, 0));
+
         for (int row = 0; row < dungeon.Width; row++)
         {
             for (int col = 0; col < dungeon.Width; col++)
             {
-                Vector3 cellCords = Converter.MapToWorldPos(new Vector2Int(row, col));
+                Vector2Int mapPos = new Vector2Int(row, col);
+                if (mapPos == exitMapPos) { continue; }
+
+                Vector3 cellCords = Converter.MapToWorldPos(mapPos);
                 Instantiate(cellConverter[dungeon[col, row]], cellCords, Quaternion.identity, mazePiecesParent.transform);
             }
         }
 
-        Vector2Int portalPos = GetRandomFarFromPlayerPos();
-        Instantiate(exitPrefab, Converter.MapToWorldPos(portalPos), Quaternion.identity);
+        //Vector2Int portalPos = GetRandomFarFromPlayerPos();
+        //Instantiate(exitPrefab, Converter.MapToWorldPos(portalPos), Quaternion.identity);
     }
 
     private void GenerateMonsters()
