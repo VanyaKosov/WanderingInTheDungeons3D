@@ -1,9 +1,7 @@
+using Assets.Scripts;
 using Assets.Scripts.Core;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +17,8 @@ public class HUDController : MonoBehaviour
     public GameObject indicatorPrefab;
     public RectTransform monsterIndicators;
     public GameObject healthBar;
-    //private int maxHealth;
+    public Image whiteFade;
+    public Fade fade;
     private Pool<MonsterIndicator> poolOfIndicators;
     private List<MonsterIndicator> pooledIndicators = new List<MonsterIndicator>();
 
@@ -32,6 +31,8 @@ public class HUDController : MonoBehaviour
             mi.rectTransform = mi.gameObject.GetComponent<RectTransform>();
             return mi;
         });
+
+        //WhiteFadeOut(1.0f);
     }
 
     void Update()
@@ -89,6 +90,40 @@ public class HUDController : MonoBehaviour
             indicator.gameObject.transform.rotation = Quaternion.identity;
         }
     }
+
+    /*public void WhiteFadeIn(float fadeDuration)
+    {
+        StartCoroutine(DoWhiteFadeIn(fadeDuration));
+    }
+
+    private IEnumerator DoWhiteFadeIn(float fadeDuration)
+    {
+        while (whiteFade.color.a < 1)
+        {
+            Color fadeColor = whiteFade.color;
+            fadeColor.a += 1 / fadeDuration * Time.deltaTime;
+            whiteFade.color = fadeColor;
+
+            yield return null;
+        }
+    }
+
+    public void WhiteFadeOut(float fadeDuration)
+    {
+        StartCoroutine(DoWhiteFadeOut(fadeDuration));
+    }
+
+    private IEnumerator DoWhiteFadeOut(float fadeDuration)
+    {
+        while (whiteFade.color.a > 0)
+        {
+            Color fadeColor = whiteFade.color;
+            fadeColor.a -= 1 / fadeDuration * Time.deltaTime;
+            whiteFade.color = fadeColor;
+
+            yield return null;
+        }
+    }*/
 
     private class MonsterIndicator
     {

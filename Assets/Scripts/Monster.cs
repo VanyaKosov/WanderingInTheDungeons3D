@@ -57,11 +57,12 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
-        Attack();
-
-        if (attackCoroutine != null) { return; }
-
-        Move();
+        if (!playerController.AtExit)
+        {
+            Attack();
+            if (attackCoroutine != null) { return; }
+            Move();
+        }
     }
 
     private void Attack()

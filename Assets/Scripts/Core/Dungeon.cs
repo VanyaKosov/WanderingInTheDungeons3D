@@ -8,7 +8,7 @@ namespace Assets.Scripts.Core
     public class Dungeon
     {
         //private const int startRoomRadius = 1;
-        private const int cellsPerMonster = 30;
+        private const int cellsPerMonster = 40;
         private const int cellsPerWallRemoved = 30;
         private static readonly System.Random randgen = new System.Random();
         private readonly Cells[,] map;
@@ -29,7 +29,7 @@ namespace Assets.Scripts.Core
 
         public Dungeon()
         {
-            map = TranslateMap(15, 15);
+            map = TranslateMap(7, 7);
             MakeHolesInWalls(Width * Height / cellsPerWallRemoved);
             startPlayerPos = new Vector2Int((Width - 1) / 2, (Height - 1) / 2);
             monsterCount = Width * Height / cellsPerMonster;

@@ -2,6 +2,7 @@ using Assets.Scripts;
 using Assets.Scripts.Core;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, IPlayer
 {
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     private float polar = 0;
     private float elevation = 0;
     private Coroutine attackCorutine;
+    private bool atExit = false;
 
     public float MoveSpeed { get; set; }
 
@@ -51,6 +53,11 @@ public class PlayerController : MonoBehaviour, IPlayer
         get => maxHealth;
     }
 
+    public bool AtExit
+    {
+        get => atExit;
+    }
+
     private void Start()
     {
         MoveSpeed = initialMoveSpeed;
@@ -59,9 +66,12 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void Update()
     {
-        PlayerMove();
-        PlayerLookAround();
-        PlayerAttack();
+        if (!atExit)
+        {
+            PlayerMove();
+            PlayerLookAround();
+            PlayerAttack();
+        }
     }
 
     private void PlayerAttack()
@@ -113,7 +123,7 @@ public class PlayerController : MonoBehaviour, IPlayer
 
         Vector3 offset = transform.forward * direction.x + Physics.gravity + transform.right * direction.z;
 
-        characterController.Move(offset * Time.deltaTime * MoveSpeed);
+        characterController.Move(MoveSpeed * Time.deltaTime * offset);
     }
 
     private void PlayerLookAround()
@@ -132,7 +142,12 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         if (other.CompareTag("Exit"))
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
+            atExit = true;
+            HUDController.fade.FadeIn(HUDController.whiteFade, 1.5f);
+            StartCoroutine(LoadEndSceneInBackground());
+
+
         }
         else if (other.CompareTag("Monster"))
         {
@@ -148,6 +163,25 @@ public class PlayerController : MonoBehaviour, IPlayer
         {
             HUDController.radarIsActive = true;
             Destroy(other.gameObject);
+        }
+    }
+
+    private IEnumerator LoadEndSceneInBackground()
+    {
+        AsyncOperation load = SceneManager.LoadSceneAsync("Ending");
+        load.allowSceneActivation = false;
+
+        while (!load.isDone)
+        {
+            if (load.progress >= 0.9f)
+            {
+                if (HUDController.whiteFade.color.a >= 1.0f)
+                {
+                    load.allowSceneActivation = true;
+                }
+            }
+
+            yield return null;
         }
     }
 }
