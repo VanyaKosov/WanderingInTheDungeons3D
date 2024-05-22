@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
@@ -29,7 +28,7 @@ namespace Assets.Scripts.Core
 
         public Dungeon()
         {
-            map = TranslateMap(7, 7);
+            map = TranslateMap(MazeParameters.mazeSize.x, MazeParameters.mazeSize.y);
             MakeHolesInWalls(Width * Height / cellsPerWallRemoved);
             startPlayerPos = new Vector2Int((Width - 1) / 2, (Height - 1) / 2);
             monsterCount = Width * Height / cellsPerMonster;
