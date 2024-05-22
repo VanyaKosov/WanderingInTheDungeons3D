@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, IPlayer
 {
-    private const int damage = 10;
+    private const int damage = 20;
     private const float attackWait = 0.4f;
     private const float attackRange = 1.5f;
     private const float attackDegreeLimit = 60.0f;

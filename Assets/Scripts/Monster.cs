@@ -15,8 +15,8 @@ public class Monster : MonoBehaviour
     public float speed;
     public CharacterController characterController;
     public Animator animator;
-    private int health = 60;
-    private int MaxHealth = 60;
+    private int health = 100;
+    private int MaxHealth = 100;
     private Vector2Int nextMapPos;
     private Dungeon dungeon;
     private Stack<Vector2Int> path = new Stack<Vector2Int>();
@@ -25,6 +25,7 @@ public class Monster : MonoBehaviour
     private PlayerController playerController;
     private int damage = 10;
     private Coroutine attackCoroutine;
+    private bool dead = false;
 
     public int Damage
     {
@@ -39,7 +40,12 @@ public class Monster : MonoBehaviour
             health = Mathf.Min(value, MaxHealth);
             if (health <= 0)
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                dead = true;
+                animator.SetBool("dead", true);
+                CapsuleCollider collider = GetComponent<CapsuleCollider>();
+                collider.enabled = false;
+                characterController.enabled = false;
             }
         }
     }
@@ -57,6 +63,8 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
+        if (dead) { return; }
+
         if (!playerController.AtExit)
         {
             Attack();
