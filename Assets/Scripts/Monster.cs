@@ -65,6 +65,11 @@ public class Monster : MonoBehaviour
     {
         if (dead) { return; }
 
+        if (playerController.playerIsDead)
+        {
+            //animator.GetCurrentAnimatorClipInfo(0)[0].clip.sp;
+        }
+
         if (!playerController.AtExit)
         {
             Attack();

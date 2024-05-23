@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     public HUDController HUDController;
     public Animator weaponAnimator;
     public GameController gameController;
+    public bool playerIsDead = false;
     private int health = 100;
     private int maxHealth = 100;
     private CharacterController characterController;
@@ -142,7 +143,6 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         if (other.CompareTag("Exit"))
         {
-            //UnityEditor.EditorApplication.isPlaying = false;
             atExit = true;
             HUDController.fade.FadeIn(HUDController.whiteFade, 1.5f);
             StartCoroutine(LoadEndSceneInBackground());
@@ -183,5 +183,10 @@ public class PlayerController : MonoBehaviour, IPlayer
 
             yield return null;
         }
+    }
+
+    private void PlayerDeath()
+    {
+        playerIsDead = true;
     }
 }
