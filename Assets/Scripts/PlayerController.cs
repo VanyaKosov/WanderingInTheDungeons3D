@@ -19,8 +19,8 @@ public class PlayerController : MonoBehaviour, IPlayer
     public Animator weaponAnimator;
     public GameController gameController;
     public bool playerIsDead = false;
-    private int health = 100;
-    private int maxHealth = 100;
+    private int health = 100; // Normal 100
+    private int maxHealth = 100; // Normal 100
     private CharacterController characterController;
     private float polar = 0;
     private float elevation = 0;
@@ -42,9 +42,11 @@ public class PlayerController : MonoBehaviour, IPlayer
             if (invulnerability) { return; }
 
             health = Mathf.Min(value, MaxHealth);
+            health = Mathf.Max(health, 0);
             if (health <= 0)
             {
-                UnityEditor.EditorApplication.isPlaying = false;
+                PlayerDeath();
+                //UnityEditor.EditorApplication.isPlaying = false;
             }
         }
     }
@@ -67,6 +69,8 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void Update()
     {
+        if (playerIsDead) { return; }
+
         if (!atExit)
         {
             PlayerMove();
@@ -188,5 +192,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     private void PlayerDeath()
     {
         playerIsDead = true;
+        weaponAnimator.speed = 0;
+        HUDController.fade.FadeIn(HUDController.blackFade, 1.5f);
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     private const int detectionRangeMap = 3;
-    private const float attackWait = 0.9f;
+    private const float attackWait = 1.0f;
     private const float attackRange = 1.5f;
     private const float attackDegreeLimit = 80.0f;
 
@@ -67,7 +67,9 @@ public class Monster : MonoBehaviour
 
         if (playerController.playerIsDead)
         {
-            //animator.GetCurrentAnimatorClipInfo(0)[0].clip.sp;
+            animator.speed = 0;
+
+            return;
         }
 
         if (!playerController.AtExit)

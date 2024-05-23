@@ -18,6 +18,7 @@ public class HUDController : MonoBehaviour
     public RectTransform monsterIndicators;
     public GameObject healthBar;
     public Image whiteFade;
+    public Image blackFade;
     public Fade fade;
     private Pool<MonsterIndicator> poolOfIndicators;
     private List<MonsterIndicator> pooledIndicators = new List<MonsterIndicator>();
@@ -44,7 +45,9 @@ public class HUDController : MonoBehaviour
     private void UpdateHealthBar()
     {
         int health = playerController.Health;
-        healthBar.transform.localScale = new Vector3((float)health / (float)playerController.MaxHealth, healthBar.transform.localScale.y);
+        healthBar.transform.localScale = new Vector3(
+            (float)health / (float)playerController.MaxHealth, 
+            healthBar.transform.localScale.y);
     }
 
     private void UpdateRadar()
@@ -90,40 +93,6 @@ public class HUDController : MonoBehaviour
             indicator.gameObject.transform.rotation = Quaternion.identity;
         }
     }
-
-    /*public void WhiteFadeIn(float fadeDuration)
-    {
-        StartCoroutine(DoWhiteFadeIn(fadeDuration));
-    }
-
-    private IEnumerator DoWhiteFadeIn(float fadeDuration)
-    {
-        while (whiteFade.color.a < 1)
-        {
-            Color fadeColor = whiteFade.color;
-            fadeColor.a += 1 / fadeDuration * Time.deltaTime;
-            whiteFade.color = fadeColor;
-
-            yield return null;
-        }
-    }
-
-    public void WhiteFadeOut(float fadeDuration)
-    {
-        StartCoroutine(DoWhiteFadeOut(fadeDuration));
-    }
-
-    private IEnumerator DoWhiteFadeOut(float fadeDuration)
-    {
-        while (whiteFade.color.a > 0)
-        {
-            Color fadeColor = whiteFade.color;
-            fadeColor.a -= 1 / fadeDuration * Time.deltaTime;
-            whiteFade.color = fadeColor;
-
-            yield return null;
-        }
-    }*/
 
     private class MonsterIndicator
     {
