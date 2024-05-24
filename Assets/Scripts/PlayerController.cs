@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour, IPlayer
     public GameController gameController;
     public bool playerIsDead = false;
     public AudioController audioController;
-    public float stepWait = 0.4f;
     public AudioClip[] stepSounds;
+    public float initialStepWait = 0.4f;
     private int health = 100; // Normal 100
     private int maxHealth = 100; // Normal 100
     private CharacterController characterController;
@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour, IPlayer
     private bool atExit = false;
 
     public float MoveSpeed { get; set; }
+
+    public float StepWait { get; set; }
 
     public Vector2Int MapPos
     {
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     private void Start()
     {
         MoveSpeed = initialMoveSpeed;
+        StepWait = initialStepWait;
         characterController = GetComponent<CharacterController>();
         StartCoroutine(PlayStepSounds());
     }
@@ -228,7 +231,7 @@ public class PlayerController : MonoBehaviour, IPlayer
             AudioClip randomSound = stepSounds[randomIndex];
             audioController.PlaySound(randomSound, transform, 0.1f);
 
-            yield return new WaitForSeconds(stepWait);
+            yield return new WaitForSeconds(StepWait);
         }
     }
 }
