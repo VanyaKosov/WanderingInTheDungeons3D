@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -708,6 +708,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1313074815}
   m_CullTransparentMesh: 1
+--- !u!1 &1628582819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1628582820}
+  - component: {fileID: 1628582821}
+  m_Layer: 0
+  m_Name: AudioController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1628582820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628582819}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -9, y: -2, z: -9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2081383286}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1628582821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628582819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f41e7505c4995eb43a31a1cca42983c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundSourcePrefab: {fileID: 4980296328804404807, guid: cfc7c6a97a137bf4c95f9d09657cf8eb, type: 3}
 --- !u!1 &1727161403
 GameObject:
   m_ObjectHideFlags: 0
@@ -1248,6 +1293,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1628582820}
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 1941236957}
@@ -1291,7 +1337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149d375eec6ca3746a4209f0a3c53679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invulnerability: 0
+  invulnerability: 1
   initialMoveSpeed: 6
   playerCamera: {fileID: 963194227}
   mouseSensitivity: 3
@@ -1299,6 +1345,13 @@ MonoBehaviour:
   weaponAnimator: {fileID: 486785346}
   gameController: {fileID: 1910375841}
   playerIsDead: 0
+  audioController: {fileID: 1628582821}
+  stepWait: 0.4
+  stepSounds:
+  - {fileID: 8300000, guid: 728e820d5a058e346a8ab0802422008e, type: 3}
+  - {fileID: 8300000, guid: f5555fd7e59273d4db33faf21ebf8001, type: 3}
+  - {fileID: 8300000, guid: db31fb84cf2ac9a49a313e4d92bc7b20, type: 3}
+  - {fileID: 8300000, guid: f97f6d9cdd3da07418393b22808c2ee2, type: 3}
 --- !u!1 &2083891329
 GameObject:
   m_ObjectHideFlags: 0

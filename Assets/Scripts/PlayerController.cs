@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour, IPlayer
     public Animator weaponAnimator;
     public GameController gameController;
     public bool playerIsDead = false;
+    public AudioController audioController;
+    public float stepWait = 0.4f;
+    public AudioClip[] stepSounds;
     private int health = 100; // Normal 100
     private int maxHealth = 100; // Normal 100
     private CharacterController characterController;
@@ -65,6 +68,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         MoveSpeed = initialMoveSpeed;
         characterController = GetComponent<CharacterController>();
+        StartCoroutine(PlayStepSounds());
     }
 
     private void Update()
@@ -213,6 +217,18 @@ public class PlayerController : MonoBehaviour, IPlayer
             }
 
             yield return null;
+        }
+    }
+
+    private IEnumerator PlayStepSounds()
+    {
+        while (true)
+        {
+            int randomIndex = Random.Range(0, stepSounds.Length);
+            AudioClip randomSound = stepSounds[randomIndex];
+            audioController.PlaySound(randomSound, transform, 0.1f);
+
+            yield return new WaitForSeconds(stepWait);
         }
     }
 }
