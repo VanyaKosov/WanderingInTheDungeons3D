@@ -10,7 +10,7 @@ public class Monster : MonoBehaviour
     private const int detectionRangeMap = 3;
     private const float attackWait = 1.0f;
     private const float attackRange = 1.5f;
-    private const float attackDegreeLimit = 80.0f;
+    private const float attackDegreeLimit = 90.0f;
 
     public float speed;
     public CharacterController characterController;
@@ -23,7 +23,7 @@ public class Monster : MonoBehaviour
     private Vector3 worldTargetPos;
     private GameObject player;
     private PlayerController playerController;
-    private int damage = 10;
+    private int damage = 30;
     private Coroutine attackCoroutine;
     private bool dead = false;
 

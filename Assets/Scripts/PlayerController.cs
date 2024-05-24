@@ -194,5 +194,25 @@ public class PlayerController : MonoBehaviour, IPlayer
         playerIsDead = true;
         weaponAnimator.speed = 0;
         HUDController.fade.FadeIn(HUDController.blackFade, 1.5f);
+        StartCoroutine(LoadDeathSceneInBackground());
+    }
+
+    private IEnumerator LoadDeathSceneInBackground()
+    {
+        AsyncOperation load = SceneManager.LoadSceneAsync("Death");
+        load.allowSceneActivation = false;
+
+        while (!load.isDone)
+        {
+            if (load.progress >= 0.9f)
+            {
+                if (HUDController.blackFade.color.a >= 1.0f)
+                {
+                    load.allowSceneActivation = true;
+                }
+            }
+
+            yield return null;
+        }
     }
 }
