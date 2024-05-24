@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public GameObject player;
     public GameObject mazePiecesParent;
     public List<GameObject> monsters;
+    private bool paused = false;
     private const float worldPlayerSpawnRadius = 12.0f;
     private Dictionary<Cells, GameObject> cellConverter;
     private Dungeon dungeon;
@@ -28,6 +29,35 @@ public class GameController : MonoBehaviour
         "#   #E  #",
         "#########"
     };
+
+    public bool Paused
+    {
+        get => paused;
+
+        set
+        {
+            paused = value;
+
+            PlayerController playerController = player.GetComponent<PlayerController>();
+
+            if (paused)
+            {
+                playerController.weaponAnimator.speed = 0f;
+                foreach (GameObject monster in monsters)
+                {
+                    monster.GetComponent<Monster>().animator.speed = 0f;
+                }
+
+                return;
+            }
+
+            playerController.weaponAnimator.speed = 1f;
+            foreach (GameObject monster in monsters)
+            {
+                monster.GetComponent<Monster>().animator.speed = 1f;
+            }
+        }
+    }
 
     private void Start()
     {
@@ -91,7 +121,7 @@ public class GameController : MonoBehaviour
             if ((worldPos - player.transform.position).magnitude < worldPlayerSpawnRadius) { continue; }
 
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
-            monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon);
+            monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, this);
         }
     }
 

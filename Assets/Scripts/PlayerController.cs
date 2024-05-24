@@ -18,10 +18,11 @@ public class PlayerController : MonoBehaviour, IPlayer
     public HUDController HUDController;
     public Animator weaponAnimator;
     public GameController gameController;
-    public bool playerIsDead = false;
     public AudioController audioController;
-    public AudioClip[] stepSounds;
+    public GameObject pauseOverlay;
+    public FlickerLight lightFlicker;
     public float initialStepWait = 0.4f;
+    public AudioClip[] stepSounds;
     private int health = 100; // Normal 100
     private int maxHealth = 100; // Normal 100
     private CharacterController characterController;
@@ -76,7 +77,8 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void Update()
     {
-        if (playerIsDead) { return; }
+        TogglePauseMenu();
+        if (gameController.Paused) { return; }
 
         if (!atExit)
         {
@@ -150,6 +152,33 @@ public class PlayerController : MonoBehaviour, IPlayer
         transform.rotation = Quaternion.AngleAxis(polar, Vector3.up);
     }
 
+    private void TogglePauseMenu()
+    {
+        if (!Input.GetKeyDown(KeyCode.Escape)) { return; }
+
+        if (gameController.Paused)
+        {
+            gameController.Paused = false;
+            pauseOverlay.SetActive(false);
+
+            return;
+        }
+
+        gameController.Paused = true;
+        pauseOverlay.SetActive(true);
+    }
+
+    public void MainMenuButton()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void QuitButton()
+    {
+        Application.Quit();
+        UnityEditor.EditorApplication.isPlaying = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Exit"))
@@ -198,8 +227,9 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void PlayerDeath()
     {
-        playerIsDead = true;
-        weaponAnimator.speed = 0;
+        //playerIsDead = true;
+        //weaponAnimator.speed = 0;
+        gameController.Paused = true;
         HUDController.fade.FadeIn(HUDController.blackFade, 1.5f);
         StartCoroutine(LoadDeathSceneInBackground());
     }

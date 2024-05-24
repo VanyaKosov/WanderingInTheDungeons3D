@@ -8,13 +8,14 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     private const int detectionRangeMap = 3;
-    private const float attackWait = 1.0f;
+    private const float attackWait = 1.2f;
     private const float attackRange = 1.5f;
     private const float attackDegreeLimit = 90.0f;
 
     public float speed;
     public CharacterController characterController;
     public Animator animator;
+    private GameController gameController;
     private int health = 100;
     private int MaxHealth = 100;
     private Vector2Int nextMapPos;
@@ -64,13 +65,7 @@ public class Monster : MonoBehaviour
     void Update()
     {
         if (dead) { return; }
-
-        if (playerController.playerIsDead)
-        {
-            animator.speed = 0;
-
-            return;
-        }
+        if (gameController.Paused) { return; }
 
         if (!playerController.AtExit)
         {
@@ -177,8 +172,9 @@ public class Monster : MonoBehaviour
         path = dungeon.FindPath(MapPos, randomPos);
     }
 
-    public void Init(Dungeon dungeon)
+    public void Init(Dungeon dungeon, GameController gameController)
     {
         this.dungeon = dungeon;
+        this.gameController = gameController;
     }
 }
