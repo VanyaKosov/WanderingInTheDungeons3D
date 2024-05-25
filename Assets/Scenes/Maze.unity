@@ -1524,6 +1524,7 @@ MonoBehaviour:
   player: {fileID: 2081383281}
   mazePiecesParent: {fileID: 969643303}
   monsters: []
+  audioController: {fileID: 1628582821}
 --- !u!4 &1910375842
 Transform:
   m_ObjectHideFlags: 0

@@ -266,7 +266,7 @@ public class PlayerController : MonoBehaviour, IPlayer
 
             int randomIndex = Random.Range(0, stepSounds.Length);
             AudioClip randomSound = stepSounds[randomIndex];
-            audioController.PlaySound(randomSound, transform, 0.05f);
+            audioController.PlaySound(randomSound, transform, 0.03f);
 
             yield return new WaitForSeconds(StepWait);
         }

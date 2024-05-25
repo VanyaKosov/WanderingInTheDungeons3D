@@ -11,20 +11,24 @@ public class Monster : MonoBehaviour
     private const float attackWait = 1.2f;
     private const float attackRange = 1.5f;
     private const float attackDegreeLimit = 90.0f;
+    private const float roarMinWait = 3.0f;
+    private const float roarMaxWait = 6.0f;
 
     public float speed;
     public CharacterController characterController;
     public Animator animator;
+    public AudioClip[] roarSounds;
+    private GameObject player;
+    private AudioController audioController;
     private GameController gameController;
+    private PlayerController playerController;
+    private int damage = 30;
     private int health = 100;
     private int MaxHealth = 100;
-    private Vector2Int nextMapPos;
     private Dungeon dungeon;
     private Stack<Vector2Int> path = new Stack<Vector2Int>();
     private Vector3 worldTargetPos;
-    private GameObject player;
-    private PlayerController playerController;
-    private int damage = 30;
+    private Vector2Int nextMapPos;
     private Coroutine attackCoroutine;
     private bool dead = false;
 
@@ -41,7 +45,6 @@ public class Monster : MonoBehaviour
             health = Mathf.Min(value, MaxHealth);
             if (health <= 0)
             {
-                //Destroy(gameObject);
                 dead = true;
                 animator.SetBool("dead", true);
                 CapsuleCollider collider = GetComponent<CapsuleCollider>();
@@ -60,6 +63,7 @@ public class Monster : MonoBehaviour
     {
         player = GameObject.Find("Player");
         playerController = player.GetComponent<PlayerController>();
+        StartCoroutine(PlayRoarSounds());
     }
 
     void Update()
@@ -172,9 +176,25 @@ public class Monster : MonoBehaviour
         path = dungeon.FindPath(MapPos, randomPos);
     }
 
-    public void Init(Dungeon dungeon, GameController gameController)
+    private IEnumerator PlayRoarSounds()
+    {
+        while (true)
+        {
+            while (dead) { yield return null; }
+
+            int randomIndex = UnityEngine.Random.Range(0, roarSounds.Length);
+            AudioClip randomSound = roarSounds[randomIndex];
+            audioController.PlaySound(randomSound, transform, 0.25f);
+
+            float roarWait = UnityEngine.Random.Range(roarMinWait, roarMaxWait);
+            yield return new WaitForSeconds(roarWait);
+        }
+    }
+
+    public void Init(Dungeon dungeon, GameController gameController, AudioController audioController)
     {
         this.dungeon = dungeon;
         this.gameController = gameController;
+        this.audioController = audioController;
     }
 }

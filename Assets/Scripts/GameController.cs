@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public GameObject monsterPrefab;
     public GameObject player;
     public GameObject mazePiecesParent;
+    public AudioController audioController;
     public List<GameObject> monsters;
     private bool paused = false;
     private const float worldPlayerSpawnRadius = 12.0f;
@@ -121,7 +122,7 @@ public class GameController : MonoBehaviour
             if ((worldPos - player.transform.position).magnitude < worldPlayerSpawnRadius) { continue; }
 
             monsters.Add(Instantiate(monsterPrefab, worldPos, Quaternion.identity));
-            monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, this);
+            monsters[monsters.Count - 1].GetComponent<Monster>().Init(dungeon, this, audioController);
         }
     }
 
