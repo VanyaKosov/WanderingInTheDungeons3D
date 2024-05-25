@@ -227,8 +227,6 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void PlayerDeath()
     {
-        //playerIsDead = true;
-        //weaponAnimator.speed = 0;
         gameController.Paused = true;
         HUDController.fade.FadeIn(HUDController.blackFade, 1.5f);
         StartCoroutine(LoadDeathSceneInBackground());
@@ -257,9 +255,18 @@ public class PlayerController : MonoBehaviour, IPlayer
     {
         while (true)
         {
+            while (true)
+            {
+                float h = Input.GetAxis("Horizontal");
+                float v = Input.GetAxis("Vertical");
+                if (h != 0 || v != 0) { break; }
+
+                yield return null;
+            }
+
             int randomIndex = Random.Range(0, stepSounds.Length);
             AudioClip randomSound = stepSounds[randomIndex];
-            audioController.PlaySound(randomSound, transform, 0.1f);
+            audioController.PlaySound(randomSound, transform, 0.05f);
 
             yield return new WaitForSeconds(StepWait);
         }
