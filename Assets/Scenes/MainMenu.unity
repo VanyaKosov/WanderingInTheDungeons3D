@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 733919940}
   - component: {fileID: 733919939}
   - component: {fileID: 733919938}
+  - component: {fileID: 733919941}
   m_Layer: 5
   m_Name: Large
   m_TagString: Untagged
@@ -390,6 +391,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 733919936}
   m_CullTransparentMesh: 1
+--- !u!114 &733919941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733919936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a00445b9ff090f4699e10645dd2e898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 975917464}
+  audioController: {fileID: 975917465}
+  pressSound: {fileID: 8300000, guid: 11214d25a48db794895516452bd1fd2e, type: 3}
 --- !u!1 &860742907
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,6 +492,7 @@ GameObject:
   - component: {fileID: 975917464}
   - component: {fileID: 975917463}
   - component: {fileID: 975917462}
+  - component: {fileID: 975917465}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -551,12 +568,25 @@ Transform:
   m_GameObject: {fileID: 975917461}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &975917465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975917461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f41e7505c4995eb43a31a1cca42983c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundSourcePrefab: {fileID: 4980296328804404807, guid: cfc7c6a97a137bf4c95f9d09657cf8eb, type: 3}
 --- !u!1 &1086958221
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,6 +693,7 @@ GameObject:
   - component: {fileID: 1535056153}
   - component: {fileID: 1535056152}
   - component: {fileID: 1535056151}
+  - component: {fileID: 1535056154}
   m_Layer: 5
   m_Name: Tiny
   m_TagString: Untagged
@@ -783,6 +814,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535056149}
   m_CullTransparentMesh: 1
+--- !u!114 &1535056154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535056149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a00445b9ff090f4699e10645dd2e898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 975917464}
+  audioController: {fileID: 975917465}
+  pressSound: {fileID: 8300000, guid: 85babd3487726e34e932e3213cd40274, type: 3}
 --- !u!1 &1586013508
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,6 +948,7 @@ GameObject:
   - component: {fileID: 1651833110}
   - component: {fileID: 1651833109}
   - component: {fileID: 1651833108}
+  - component: {fileID: 1651833111}
   m_Layer: 5
   m_Name: QuitGame
   m_TagString: Untagged
@@ -1022,6 +1069,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1651833106}
   m_CullTransparentMesh: 1
+--- !u!114 &1651833111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651833106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a00445b9ff090f4699e10645dd2e898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 975917464}
+  audioController: {fileID: 975917465}
+  pressSound: {fileID: 8300000, guid: 11214d25a48db794895516452bd1fd2e, type: 3}
 --- !u!1 &1665366276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,6 +1364,7 @@ GameObject:
   - component: {fileID: 2050084430}
   - component: {fileID: 2050084429}
   - component: {fileID: 2050084428}
+  - component: {fileID: 2050084431}
   m_Layer: 5
   m_Name: Medium
   m_TagString: Untagged
@@ -1422,6 +1485,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050084426}
   m_CullTransparentMesh: 1
+--- !u!114 &2050084431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050084426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a00445b9ff090f4699e10645dd2e898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 975917464}
+  audioController: {fileID: 975917465}
+  pressSound: {fileID: 8300000, guid: 11214d25a48db794895516452bd1fd2e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -658,6 +658,7 @@ GameObject:
   - component: {fileID: 616246525}
   - component: {fileID: 616246527}
   - component: {fileID: 616246526}
+  - component: {fileID: 616246528}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -788,6 +789,19 @@ MonoBehaviour:
   blackFade: {fileID: 846912194}
   fade: {fileID: 616246526}
   deathOverlay: {fileID: 1488405520}
+--- !u!114 &616246528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616246521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f41e7505c4995eb43a31a1cca42983c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundSourcePrefab: {fileID: 4980296328804404807, guid: cfc7c6a97a137bf4c95f9d09657cf8eb, type: 3}
 --- !u!1001 &713937644
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1093,6 +1107,7 @@ GameObject:
   - component: {fileID: 862998579}
   - component: {fileID: 862998578}
   - component: {fileID: 862998577}
+  - component: {fileID: 862998580}
   m_Layer: 0
   m_Name: QuitGame
   m_TagString: Untagged
@@ -1213,6 +1228,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862998575}
   m_CullTransparentMesh: 1
+--- !u!114 &862998580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862998575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a00445b9ff090f4699e10645dd2e898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 616246524}
+  audioController: {fileID: 616246528}
+  pressSound: {fileID: 8300000, guid: 85babd3487726e34e932e3213cd40274, type: 3}
 --- !u!1001 &1052804868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1287,6 +1317,7 @@ GameObject:
   - component: {fileID: 1092258036}
   - component: {fileID: 1092258035}
   - component: {fileID: 1092258034}
+  - component: {fileID: 1092258037}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -1407,6 +1438,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1092258032}
   m_CullTransparentMesh: 1
+--- !u!114 &1092258037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092258032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a00445b9ff090f4699e10645dd2e898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 616246524}
+  audioController: {fileID: 616246528}
+  pressSound: {fileID: 8300000, guid: 85babd3487726e34e932e3213cd40274, type: 3}
 --- !u!1001 &1098864139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2059,7 +2105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1488405521
 RectTransform:
   m_ObjectHideFlags: 0

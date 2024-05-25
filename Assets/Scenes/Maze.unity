@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 25307447}
   - component: {fileID: 25307446}
   - component: {fileID: 25307445}
+  - component: {fileID: 25307448}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -255,6 +256,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25307443}
   m_CullTransparentMesh: 1
+--- !u!114 &25307448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25307443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a00445b9ff090f4699e10645dd2e898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 2081383286}
+  audioController: {fileID: 1628582821}
+  pressSound: {fileID: 8300000, guid: 85babd3487726e34e932e3213cd40274, type: 3}
 --- !u!1 &131460464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,6 +1147,7 @@ GameObject:
   - component: {fileID: 1373834561}
   - component: {fileID: 1373834560}
   - component: {fileID: 1373834559}
+  - component: {fileID: 1373834562}
   m_Layer: 0
   m_Name: QuitGame
   m_TagString: Untagged
@@ -1251,6 +1268,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1373834557}
   m_CullTransparentMesh: 1
+--- !u!114 &1373834562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373834557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a00445b9ff090f4699e10645dd2e898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 2081383286}
+  audioController: {fileID: 1628582821}
+  pressSound: {fileID: 8300000, guid: 85babd3487726e34e932e3213cd40274, type: 3}
 --- !u!1 &1628582819
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,8 +1555,8 @@ MonoBehaviour:
   monsterPrefab: {fileID: 7407751968917775792, guid: 619098999009654438532a9018bfad9b, type: 3}
   player: {fileID: 2081383281}
   mazePiecesParent: {fileID: 969643303}
-  monsters: []
   audioController: {fileID: 1628582821}
+  monsters: []
 --- !u!4 &1910375842
 Transform:
   m_ObjectHideFlags: 0
