@@ -1954,16 +1954,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerability: 0
-  initialMoveSpeed: 6
-  playerCamera: {fileID: 963194227}
+  initialMoveSpeed: 5
+  initialStepWait: 0.4
   mouseSensitivity: 3
   HUDController: {fileID: 246315987}
-  weaponAnimator: {fileID: 486785346}
   gameController: {fileID: 1910375841}
   audioController: {fileID: 1628582821}
+  playerCamera: {fileID: 963194227}
+  weaponAnimator: {fileID: 486785346}
   pauseOverlay: {fileID: 1855714196}
   lightFlicker: {fileID: 705507996}
-  initialStepWait: 0.4
   stepSounds:
   - {fileID: 8300000, guid: 728e820d5a058e346a8ab0802422008e, type: 3}
   - {fileID: 8300000, guid: f5555fd7e59273d4db33faf21ebf8001, type: 3}

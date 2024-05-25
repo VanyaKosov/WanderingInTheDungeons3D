@@ -8,8 +8,9 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     private const int detectionRangeMap = 3;
-    private const float attackWait = 1.2f;
+    private const float attackWait = 1.1f;
     private const float attackRange = 1.5f;
+    private const float attackStartRange = 1.2f;
     private const float attackDegreeLimit = 90.0f;
     private const float roarMinWait = 3.0f;
     private const float roarMaxWait = 6.0f;
@@ -82,13 +83,15 @@ public class Monster : MonoBehaviour
     private void Attack()
     {
         if (attackCoroutine != null) { return; }
-        if ((player.transform.position - transform.position).magnitude > attackRange) { return; }
+        if ((player.transform.position - transform.position).magnitude > attackStartRange) { return; }
 
         attackCoroutine = StartCoroutine(DoAttack());
     }
 
     private IEnumerator DoAttack()
     {
+        transform.LookAt(player.transform, Vector3.up);
+
         animator.SetTrigger("attack");
         yield return new WaitForSeconds(attackWait);
 

@@ -13,15 +13,15 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     public bool invulnerability;
     public float initialMoveSpeed;
-    public Camera playerCamera;
+    public float initialStepWait = 0.4f;
     public float mouseSensitivity;
     public HUDController HUDController;
-    public Animator weaponAnimator;
     public GameController gameController;
     public AudioController audioController;
+    public Camera playerCamera;
+    public Animator weaponAnimator;
     public GameObject pauseOverlay;
     public FlickerLight lightFlicker;
-    public float initialStepWait = 0.4f;
     public AudioClip[] stepSounds;
     private int health = 100; // Normal 100
     private int maxHealth = 100; // Normal 100
