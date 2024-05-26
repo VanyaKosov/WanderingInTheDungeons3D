@@ -62,6 +62,9 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         player = GameObject.Find("Player");
         playerController = player.GetComponent<PlayerController>();
         StartCoroutine(PlayRoarSounds());

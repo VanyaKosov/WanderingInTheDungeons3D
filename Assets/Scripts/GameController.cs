@@ -105,9 +105,6 @@ public class GameController : MonoBehaviour
                 Instantiate(cellConverter[dungeon[col, row]], cellCords, Quaternion.identity, mazePiecesParent.transform);
             }
         }
-
-        //Vector2Int portalPos = GetRandomFarFromPlayerPos();
-        //Instantiate(exitPrefab, Converter.MapToWorldPos(portalPos), Quaternion.identity);
     }
 
     private void GenerateMonsters()

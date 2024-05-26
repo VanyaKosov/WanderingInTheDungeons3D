@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FlickerLight : MonoBehaviour
 {
+    public GameObject lightRoot;
     public float minRange = 12.0f;
     public float maxRange = 15.0f;
     public float minIntensity = 0.8f;
@@ -23,6 +24,7 @@ public class FlickerLight : MonoBehaviour
 
     void Update()
     {
+        transform.position = lightRoot.transform.position;
         torchLight.intensity += intensityChangeSpeed * Time.deltaTime;
         torchLight.range += rangeChangeSpeed * Time.deltaTime;
     }
