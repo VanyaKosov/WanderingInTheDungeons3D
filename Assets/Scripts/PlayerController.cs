@@ -20,8 +20,10 @@ public class PlayerController : MonoBehaviour, IPlayer
     public AudioController audioController;
     public Camera playerCamera;
     public Animator weaponAnimator;
+    public Animator playerAnimator;
     public GameObject pauseOverlay;
     public FlickerLight lightFlicker;
+    public GameObject cameraRootPos;
     public AudioClip[] stepSounds;
     private int health = 100; // Normal 100
     private int maxHealth = 100; // Normal 100
@@ -135,13 +137,18 @@ public class PlayerController : MonoBehaviour, IPlayer
             direction = Vector3.Normalize(direction);
         }
 
-        Vector3 offset = transform.forward * direction.x + Physics.gravity + transform.right * direction.z;
+        Vector3 offset = (transform.forward * direction.x + Physics.gravity + transform.right * direction.z) * MoveSpeed;
+        characterController.Move(Time.deltaTime * offset);
 
-        characterController.Move(MoveSpeed * Time.deltaTime * offset);
+        Vector3 localOffset = transform.worldToLocalMatrix.MultiplyVector(offset);
+        playerAnimator.SetFloat("xVelocity", localOffset.x);
+        playerAnimator.SetFloat("yVelocity", localOffset.z);
     }
 
     private void PlayerLookAround()
     {
+        playerCamera.transform.position = cameraRootPos.transform.position;
+
         polar += Input.GetAxis("Mouse X") * mouseSensitivity;
         elevation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
 
