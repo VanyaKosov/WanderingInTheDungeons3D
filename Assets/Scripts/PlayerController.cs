@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, IPlayer
 {
+    private const float animationBlendSpeed = 1.0f;
     private const int damage = 20;
     private const float attackWait = 0.4f;
     private const float attackRange = 1.5f;
@@ -54,7 +55,6 @@ public class PlayerController : MonoBehaviour, IPlayer
             if (health <= 0)
             {
                 PlayerDeath();
-                //UnityEditor.EditorApplication.isPlaying = false;
             }
         }
     }
@@ -141,8 +141,10 @@ public class PlayerController : MonoBehaviour, IPlayer
         characterController.Move(Time.deltaTime * offset);
 
         Vector3 localOffset = transform.worldToLocalMatrix.MultiplyVector(offset);
-        playerAnimator.SetFloat("xVelocity", localOffset.x);
-        playerAnimator.SetFloat("yVelocity", localOffset.z);
+        float velocityX = Mathf.Lerp(playerAnimator.GetFloat("xVelocity"), localOffset.x, animationBlendSpeed);
+        float velocityY = Mathf.Lerp(playerAnimator.GetFloat("yVelocity"), localOffset.z, animationBlendSpeed);
+        playerAnimator.SetFloat("xVelocity", velocityX); // localOffset.x
+        playerAnimator.SetFloat("yVelocity", velocityY); // localOffset.z
     }
 
     private void PlayerLookAround()

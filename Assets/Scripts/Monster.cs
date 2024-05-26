@@ -8,9 +8,9 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     private const int detectionRangeMap = 3;
-    private const float attackWait = 1.1f;
-    private const float attackRange = 1.5f;
-    private const float attackStartRange = 1.2f;
+    private const float attackWait = 1.2f;
+    private const float attackRange = 2.0f;
+    private const float attackStartRange = 1.4f;
     private const float attackDegreeLimit = 90.0f;
     private const float roarMinWait = 3.0f;
     private const float roarMaxWait = 6.0f;
