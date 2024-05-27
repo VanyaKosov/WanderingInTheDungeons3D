@@ -101,7 +101,8 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private IEnumerator DoAttack()
     {
-        weaponAnimator.SetTrigger("attack");
+        //weaponAnimator.SetTrigger("attack");
+        playerAnimator.SetTrigger("attack2");
         yield return new WaitForSeconds(attackWait);
 
         for (int i = 0; i < gameController.monsters.Count; i++)
@@ -123,7 +124,8 @@ public class PlayerController : MonoBehaviour, IPlayer
             }
         }
 
-        yield return WaitForAnimatorState.Do(weaponAnimator, "PlayerIdleAnimation");
+        //yield return WaitForAnimatorState.Do(weaponAnimator, "PlayerIdleAnimation");
+        yield return WaitForAnimatorState.Do(playerAnimator, "Base State");
         attackCorutine = null;
     }
 
