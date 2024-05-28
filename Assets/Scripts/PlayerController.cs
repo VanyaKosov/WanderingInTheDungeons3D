@@ -6,9 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, IPlayer
 {
+    private const float runSpeedIncrease = 3.0f;
+    private const float staminaDecrese = 30.0f;
+    private const float staminaRegeneration = 30.0f;
     private const float animationBlendSpeed = 1.0f;
     private const int damage = 20;
-    private const float attackWait = 0.8f; // 0.4f
+    private const float attackWait = 0.8f;
     private const float attackRange = 2.0f;
     private const float attackDegreeLimit = 70.0f;
 
@@ -28,6 +31,8 @@ public class PlayerController : MonoBehaviour, IPlayer
     public AudioClip[] stepSounds;
     private int health = 100; // Normal 100
     private int maxHealth = 100; // Normal 100
+    private float stamina = 100;
+    private int maxStamina = 100;
     private CharacterController characterController;
     private float polar = 0;
     private float elevation = 0;
@@ -62,6 +67,21 @@ public class PlayerController : MonoBehaviour, IPlayer
     public int MaxHealth
     {
         get => maxHealth;
+    }
+
+    public int MaxStamina
+    {
+        get => maxStamina;
+    }
+
+    public float Stamina
+    {
+        get => stamina;
+        set
+        {
+            stamina = Mathf.Min(value, MaxStamina);
+            stamina = Mathf.Max(stamina, 0);
+        }
     }
 
     public bool AtExit
@@ -140,14 +160,21 @@ public class PlayerController : MonoBehaviour, IPlayer
             direction = Vector3.Normalize(direction);
         }
 
-        Vector3 offset = (transform.forward * direction.x + Physics.gravity + transform.right * direction.z) * MoveSpeed;
+        bool running = Input.GetKey(KeyCode.LeftShift);
+        float speed = MoveSpeed;
+        if (running && stamina > 0)
+        {
+            speed += runSpeedIncrease;
+            stamina -= staminaDecrese * Time.deltaTime;
+        }
+        Vector3 offset = (transform.forward * direction.x + Physics.gravity + transform.right * direction.z) * speed;
         characterController.Move(Time.deltaTime * offset);
 
         Vector3 localOffset = transform.worldToLocalMatrix.MultiplyVector(offset);
         float velocityX = Mathf.Lerp(playerAnimator.GetFloat("xVelocity"), localOffset.x, animationBlendSpeed);
         float velocityY = Mathf.Lerp(playerAnimator.GetFloat("yVelocity"), localOffset.z, animationBlendSpeed);
-        playerAnimator.SetFloat("xVelocity", velocityX); // localOffset.x
-        playerAnimator.SetFloat("yVelocity", velocityY); // localOffset.z
+        playerAnimator.SetFloat("xVelocity", velocityX);
+        playerAnimator.SetFloat("yVelocity", velocityY);
     }
 
     private void PlayerLookAround()

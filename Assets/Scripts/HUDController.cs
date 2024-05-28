@@ -17,6 +17,7 @@ public class HUDController : MonoBehaviour
     public GameObject indicatorPrefab;
     public RectTransform monsterIndicators;
     public GameObject healthBar;
+    public GameObject staminaBar;
     public Image whiteFade;
     public Image blackFade;
     public Fade fade;
@@ -32,21 +33,26 @@ public class HUDController : MonoBehaviour
             mi.rectTransform = mi.gameObject.GetComponent<RectTransform>();
             return mi;
         });
-
-        //WhiteFadeOut(1.0f);
     }
 
     void Update()
     {
         UpdateRadar();
         UpdateHealthBar();
+        UpdateStamina();
     }
 
     private void UpdateHealthBar()
     {
-        int health = playerController.Health;
         healthBar.transform.localScale = new Vector3(
-            (float)health / (float)playerController.MaxHealth, 
+            (float)playerController.Health / (float)playerController.MaxHealth, 
+            healthBar.transform.localScale.y);
+    }
+
+    private void UpdateStamina()
+    {
+        staminaBar.transform.localScale = new Vector3(
+            (float)playerController.Stamina / (float)playerController.MaxStamina,
             healthBar.transform.localScale.y);
     }
 
