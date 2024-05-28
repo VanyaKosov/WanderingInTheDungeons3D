@@ -102,7 +102,8 @@ public class PlayerController : MonoBehaviour, IPlayer
     private IEnumerator DoAttack()
     {
         //weaponAnimator.SetTrigger("attack");
-        playerAnimator.SetTrigger("attack2");
+        //playerAnimator.SetTrigger("attack");
+        playerAnimator.SetTrigger("attack3");
         yield return new WaitForSeconds(attackWait);
 
         for (int i = 0; i < gameController.monsters.Count; i++)
