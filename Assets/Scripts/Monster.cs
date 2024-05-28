@@ -8,7 +8,7 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     private const int detectionRangeMap = 3;
-    private const float attackWait = 1.2f;
+    private const float attackWait = 1.0f; // 1.2f
     private const float attackRange = 2.0f;
     private const float attackStartRange = 1.4f;
     private const float attackDegreeLimit = 90.0f;

@@ -8,9 +8,9 @@ public class PlayerController : MonoBehaviour, IPlayer
 {
     private const float animationBlendSpeed = 1.0f;
     private const int damage = 20;
-    private const float attackWait = 0.4f;
-    private const float attackRange = 1.5f;
-    private const float attackDegreeLimit = 60.0f;
+    private const float attackWait = 0.8f; // 0.4f
+    private const float attackRange = 2.0f;
+    private const float attackDegreeLimit = 70.0f;
 
     public bool invulnerability;
     public float initialMoveSpeed;
@@ -84,15 +84,15 @@ public class PlayerController : MonoBehaviour, IPlayer
 
         if (!atExit)
         {
-            PlayerMove();
             PlayerLookAround();
+            if (attackCorutine != null) { return; }
             PlayerAttack();
+            PlayerMove();
         }
     }
 
     private void PlayerAttack()
     {
-        if (attackCorutine != null) { return; }
         bool leftClicked = Input.GetMouseButtonDown(0);
         if (!leftClicked) { return; }
 
