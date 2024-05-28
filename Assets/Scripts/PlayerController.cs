@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour, IPlayer
 {
     private const float runSpeedIncrease = 3.0f;
     private const float staminaDecrese = 30.0f;
-    private const float staminaRegeneration = 30.0f;
+    private const float staminaRegeneration = 10.0f;
     private const float animationBlendSpeed = 1.0f;
     private const int damage = 20;
     private const float attackWait = 0.8f;
@@ -29,10 +29,10 @@ public class PlayerController : MonoBehaviour, IPlayer
     public FlickerLight lightFlicker;
     public GameObject cameraRootPos;
     public AudioClip[] stepSounds;
-    private int health = 100; // Normal 100
+    private int health = 100;
     private int maxHealth = 100; // Normal 100
     private float stamina = 100;
-    private int maxStamina = 100;
+    private int maxStamina = 100; // Normal 100
     private CharacterController characterController;
     private float polar = 0;
     private float elevation = 0;
@@ -104,10 +104,19 @@ public class PlayerController : MonoBehaviour, IPlayer
 
         if (!atExit)
         {
+            RegenerateStamina();
             PlayerLookAround();
             if (attackCorutine != null) { return; }
             PlayerAttack();
             PlayerMove();
+        }
+    }
+
+    private void RegenerateStamina()
+    {
+        if (!Input.GetKey(KeyCode.LeftShift))
+        {
+            Stamina += staminaRegeneration * Time.deltaTime;
         }
     }
 
@@ -121,9 +130,7 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private IEnumerator DoAttack()
     {
-        //weaponAnimator.SetTrigger("attack");
-        //playerAnimator.SetTrigger("attack");
-        playerAnimator.SetTrigger("attack3");
+        playerAnimator.SetTrigger("attack");
         yield return new WaitForSeconds(attackWait);
 
         for (int i = 0; i < gameController.monsters.Count; i++)
@@ -145,7 +152,6 @@ public class PlayerController : MonoBehaviour, IPlayer
             }
         }
 
-        //yield return WaitForAnimatorState.Do(weaponAnimator, "PlayerIdleAnimation");
         yield return WaitForAnimatorState.Do(playerAnimator, "Base State");
         attackCorutine = null;
     }
@@ -223,6 +229,7 @@ public class PlayerController : MonoBehaviour, IPlayer
         if (other.CompareTag("Exit"))
         {
             atExit = true;
+            playerAnimator.speed = 0f;
             HUDController.fade.FadeIn(HUDController.whiteFade, 1.5f);
             StartCoroutine(LoadEndSceneInBackground());
 
@@ -267,6 +274,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     private void PlayerDeath()
     {
         gameController.Paused = true;
+        playerAnimator.speed = 0f;
         HUDController.fade.FadeIn(HUDController.blackFade, 1.5f);
         StartCoroutine(LoadDeathSceneInBackground());
     }

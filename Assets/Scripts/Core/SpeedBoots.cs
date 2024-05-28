@@ -2,7 +2,7 @@
 {
     public class SpeedBoots : Item
     {
-        public const float speedChange = 2.0f;
+        public const float speedChange = 1.5f;
 
         public SpeedBoots() : base("Speed Boots", "These boots increase your speed")
         {
