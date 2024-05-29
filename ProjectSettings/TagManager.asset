@@ -8,6 +8,8 @@ TagManager:
   - Monster
   - SpeedBoots
   - Radar
+  - FxTemporaire
+  - HealthPotion
   layers:
   - Default
   - TransparentFX

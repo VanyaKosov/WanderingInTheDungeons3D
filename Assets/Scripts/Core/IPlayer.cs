@@ -5,5 +5,6 @@ namespace Assets.Scripts.Core
     {
         float MoveSpeed { get; set; }
         float StepWait { get; set; }
+        int Health { get; set; }
     }
 }

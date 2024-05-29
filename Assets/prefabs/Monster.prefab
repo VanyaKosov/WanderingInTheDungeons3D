@@ -123,9 +123,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+  healthPotionPrefab: {fileID: 803932573242362151, guid: 12ae79d2102b34844878fca2624cba80, type: 3}
   characterController: {fileID: 3500533047842061824}
   animator: {fileID: 266907666084619519}
-  audioController: {fileID: 0}
   roarSounds:
   - {fileID: 8300000, guid: 3c9c0bbacf942674583cbbf3431b5c9b, type: 3}
   - {fileID: 8300000, guid: 96b4c081276c1764995e060132e60519, type: 3}

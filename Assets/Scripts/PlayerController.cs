@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour, IPlayer
     private const float staminaDecrese = 30.0f;
     private const float staminaRegeneration = 10.0f;
     private const float animationBlendSpeed = 1.0f;
-    private const int damage = 20;
+    private const int damage = 30;
     private const float attackWait = 0.8f;
     private const float attackRange = 2.0f;
     private const float attackDegreeLimit = 70.0f;
@@ -235,9 +235,11 @@ public class PlayerController : MonoBehaviour, IPlayer
 
 
         }
-        else if (other.CompareTag("Monster"))
+        else if (other.CompareTag("HealthPotion"))
         {
-
+            HealthPotion healthPotion = new HealthPotion();
+            healthPotion.apply(this);
+            Destroy(other.gameObject);
         }
         else if (other.CompareTag("SpeedBoots"))
         {

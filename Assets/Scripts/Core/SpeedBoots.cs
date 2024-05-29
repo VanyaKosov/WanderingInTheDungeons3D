@@ -4,10 +4,7 @@
     {
         public const float speedChange = 1.5f;
 
-        public SpeedBoots() : base("Speed Boots", "These boots increase your speed")
-        {
-
-        }
+        public SpeedBoots() : base("Speed Boots", "These boots increase your speed") { }
 
         public override void apply(IPlayer player)
         {

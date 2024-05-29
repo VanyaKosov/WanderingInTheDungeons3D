@@ -1,6 +1,5 @@
 using Assets.Scripts;
 using Assets.Scripts.Core;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,14 +7,15 @@ using UnityEngine;
 public class Monster : MonoBehaviour
 {
     private const int detectionRangeMap = 3;
-    private const float attackWait = 1.0f; // 1.2f
+    private const float attackWait = 1.0f;
     private const float attackRange = 2.0f;
     private const float attackStartRange = 1.4f;
-    private const float attackDegreeLimit = 90.0f;
+    private const float attackDegreeLimit = 80.0f;
     private const float roarMinWait = 3.0f;
     private const float roarMaxWait = 6.0f;
 
     public float speed;
+    public GameObject healthPotionPrefab;
     public CharacterController characterController;
     public Animator animator;
     public AudioClip[] roarSounds;
@@ -51,6 +51,9 @@ public class Monster : MonoBehaviour
                 CapsuleCollider collider = GetComponent<CapsuleCollider>();
                 collider.enabled = false;
                 characterController.enabled = false;
+
+                Vector3 spawnPos = new Vector3(transform.position.x, Converter.spawnVerticalOffset, transform.position.z);
+                Instantiate(healthPotionPrefab, spawnPos, Quaternion.identity);
             }
         }
     }
