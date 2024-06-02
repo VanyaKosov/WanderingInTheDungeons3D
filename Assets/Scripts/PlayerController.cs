@@ -91,9 +91,14 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     private void Start()
     {
+        Vector3 startPlayerPos = Converter.MapToWorldPos(gameController.Dungeon.StartPlayerPos);
+        startPlayerPos.y = transform.position.y;
+        transform.position = startPlayerPos;
+
         MoveSpeed = initialMoveSpeed;
         StepWait = initialStepWait;
         characterController = GetComponent<CharacterController>();
+        characterController.enabled = true;
         StartCoroutine(PlayStepSounds());
     }
 

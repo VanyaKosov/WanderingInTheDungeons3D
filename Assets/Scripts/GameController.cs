@@ -31,6 +31,11 @@ public class GameController : MonoBehaviour
         "#########"
     };
 
+    public Dungeon Dungeon
+    {
+        get => dungeon;
+    }
+
     public bool Paused
     {
         get => paused;
@@ -86,9 +91,6 @@ public class GameController : MonoBehaviour
     private void GenerateDungeon()
     {
         dungeon = new Dungeon();
-        Vector3 startPlayerPos = Converter.MapToWorldPos(dungeon.StartPlayerPos);
-        startPlayerPos.y = player.transform.position.y;
-        player.transform.position = startPlayerPos;
 
         Vector2Int exitMapPos = new Vector2Int((dungeon.Height - 1) / 2, 0);
         Instantiate(floorPrefab, Converter.MapToWorldPos(exitMapPos), Quaternion.identity);
