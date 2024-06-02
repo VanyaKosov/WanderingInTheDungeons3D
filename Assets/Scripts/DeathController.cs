@@ -26,8 +26,7 @@ public class DeathController : MonoBehaviour
 
     public void QuitButton()
     {
-        Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
+        Utils.CloseApplication();
     }
 
     private IEnumerator ShowOverlay()

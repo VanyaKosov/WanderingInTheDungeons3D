@@ -225,8 +225,7 @@ public class PlayerController : MonoBehaviour, IPlayer
 
     public void QuitButton()
     {
-        Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
+        Utils.CloseApplication();
     }
 
     private void OnTriggerEnter(Collider other)
